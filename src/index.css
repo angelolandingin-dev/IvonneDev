@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-terminal-bg: #0a0a0a;
+  --color-terminal-text: #e0e0e0;
+  --color-terminal-accent: #22c55e; /* Green-500 */
+  --color-terminal-accent-muted: #166534; /* Green-800 */
+}
+
+@layer base {
+  body {
+    @apply bg-terminal-bg text-terminal-text font-mono selection:bg-terminal-accent selection:text-black antialiased overflow-x-hidden;
+  }
+}
+
+@layer utilities {
+  .scanline {
+    background: linear-gradient(
+      to bottom,
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.2) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+  }
+
+  .terminal-border {
+    @apply border border-terminal-accent/30;
+  }
+
+  .terminal-window {
+    @apply border border-white/10 bg-black/40 backdrop-blur-sm;
+  }
+
+  .cursor-blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .text-glow {
+    text-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+  }
+}
