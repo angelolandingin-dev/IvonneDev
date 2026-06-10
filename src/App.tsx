@@ -99,13 +99,13 @@ const WindowHeader = ({
 const CornerBrackets = () => (
   <>
     {/* Top Left */}
-    <div className="absolute top-[-6px] left-[-6px] w-3 h-3 border-t-2 border-l-2 border-terminal-accent opacity-0 scale-90 translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 shadow-[0_0_6px_var(--color-terminal-accent-glow)]" />
+    <div className="absolute top-[-6px] left-[-6px] w-3 h-3 border-t-2 border-l-2 border-terminal-accent opacity-0 scale-90 translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 drop-shadow-[0_0_3px_var(--color-terminal-accent-glow)]" />
     {/* Top Right */}
-    <div className="absolute top-[-6px] right-[-6px] w-3 h-3 border-t-2 border-r-2 border-terminal-accent opacity-0 scale-90 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 shadow-[0_0_6px_var(--color-terminal-accent-glow)]" />
+    <div className="absolute top-[-6px] right-[-6px] w-3 h-3 border-t-2 border-r-2 border-terminal-accent opacity-0 scale-90 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 drop-shadow-[0_0_3px_var(--color-terminal-accent-glow)]" />
     {/* Bottom Left */}
-    <div className="absolute bottom-[-6px] left-[-6px] w-3 h-3 border-b-2 border-l-2 border-terminal-accent opacity-0 scale-90 translate-x-1 -translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 shadow-[0_0_6px_var(--color-terminal-accent-glow)]" />
+    <div className="absolute bottom-[-6px] left-[-6px] w-3 h-3 border-b-2 border-l-2 border-terminal-accent opacity-0 scale-90 translate-x-1 -translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 drop-shadow-[0_0_3px_var(--color-terminal-accent-glow)]" />
     {/* Bottom Right */}
-    <div className="absolute bottom-[-6px] right-[-6px] w-3 h-3 border-b-2 border-r-2 border-terminal-accent opacity-0 scale-90 -translate-x-1 -translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 shadow-[0_0_6px_var(--color-terminal-accent-glow)]" />
+    <div className="absolute bottom-[-6px] right-[-6px] w-3 h-3 border-b-2 border-r-2 border-terminal-accent opacity-0 scale-90 -translate-x-1 -translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 drop-shadow-[0_0_3px_var(--color-terminal-accent-glow)]" />
   </>
 );
 
