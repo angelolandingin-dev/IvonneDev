@@ -41,7 +41,8 @@ export function MatrixRain({ active }: MatrixRainProps) {
       yPositions[i] = Math.random() * -height;
     }
 
-    const matrixChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$<>[]{}#@%&+*=";
+    const matrixChars = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン" +
+      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$<>[]{}#@%&+*=";
     const charsArray = matrixChars.split("");
 
     const getAccentColor = () => {
