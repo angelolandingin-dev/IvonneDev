@@ -8,8 +8,8 @@ interface MatrixRainProps {
 const WORD_POOL = [
   // Personal
   "ANGELO", "LANDINGIN", "MARK", "IVONNE", "DEV",
-  // Japanese
-  "イヴォーク", "マーク", "アンジェロ", "ランディンギン",
+  // Japanese — Personal
+  "イヴォン", "イーヴ", "オタク", "アンゲロウ", "すずめの戸締まり",
   // CS / Dev
   "CS", "CODE", "REACT", "NODE", "GIT", "API",
   "FULLSTACK", "FRONTEND", "BACKEND", "NULL", "VOID",
@@ -54,8 +54,10 @@ export function MatrixRain({ active }: MatrixRainProps) {
     };
     window.addEventListener("resize", handleResize);
 
-    const fontSize = 32; // smaller characters for finer rain effect
-    const columns = Math.floor(width / fontSize * 4) + 1;
+    const fontSize = 32;
+    const colSpacing = fontSize * 2; // column spacing (64px)
+    const leftMargin = 48; // keep rain away from left edge
+    const columns = Math.floor((width - leftMargin) / colSpacing) + 1;
     const yPositions: number[] = [];
     for (let i = 0; i < columns; i++) {
       yPositions[i] = Math.random() * -height;
@@ -76,7 +78,11 @@ export function MatrixRain({ active }: MatrixRainProps) {
 
     // ─── Glow trail particles (rendered after word completes) ──────────────────
     const glowParticles: GlowParticle[] = [];
-    const GLOW_DECAY = 0.06; // how fast glow fades per frame (~16 frames to vanish)
+    const GLOW_DECAY = 0.12; // glow fades over ~16 frames
+
+    // ─── Cooldown timer for word injection (constant rate) ─────────────────────
+    let wordCooldown = 0; // frames to wait before next injection
+    const WORD_COOLDOWN = 20; // ~3.2s between words at 80ms interval
 
     const getAccentColor = () => {
       const color = getComputedStyle(document.documentElement)
@@ -95,9 +101,47 @@ export function MatrixRain({ active }: MatrixRainProps) {
       const accent = getAccentColor();
       ctx.font = `${fontSize}px monospace`;
 
+      // Content zone: max-w-7xl (1280px) + padding, centered
+      const contentWidth = Math.min(1280, width);
+      const contentLeft = (width - contentWidth) / 2;
+      const contentRight = contentLeft + contentWidth;
+
+      // ── Inject 1 word at a time on a cooldown ──────────────────────────
+      const hasActiveWord = wordQueue.some((q) => q !== null);
+      if (!hasActiveWord) {
+        if (wordCooldown <= 0) {
+          // Find eligible columns: idle, on-screen, past safe zone, outside content
+          const eligible: number[] = [];
+          for (let i = 0; i < yPositions.length; i++) {
+            const cx = leftMargin + i * colSpacing;
+            const cy = yPositions[i];
+            if (cy > fontSize * 6 && cy < height && cx < width && (cx < contentLeft || cx > contentRight)) {
+              eligible.push(i);
+            }
+          }
+          if (eligible.length > 0) {
+            const pick = eligible[Math.floor(Math.random() * eligible.length)];
+            wordQueue[pick] = WORD_POOL[Math.floor(Math.random() * WORD_POOL.length)].split("");
+            wordPos[pick] = 0;
+            wordTrail[pick] = [];
+          }
+        } else {
+          wordCooldown--;
+        }
+      }
+
       for (let i = 0; i < yPositions.length; i++) {
-        const x = i * fontSize * 4; // increased column spacing
+        const x = leftMargin + i * colSpacing; // offset from left edge
         const y = yPositions[i];
+
+        // Skip columns inside the content area
+        if (x >= contentLeft && x <= contentRight) {
+          yPositions[i] = y + fontSize;
+          if (y > height + 200 || (y > height && Math.random() > 0.90)) {
+            yPositions[i] = 0;
+          }
+          continue;
+        }
 
         // ── Word injection: use next word char if available, else random ──
         let text: string;
@@ -117,22 +161,21 @@ export function MatrixRain({ active }: MatrixRainProps) {
             }
             wordTrail[i] = [];
             wordQueue[i] = null;
-          }
-
-          // ~5% chance per frame to start a new word mid-fall (only after 6 rows from top)
-          if (wordQueue[i] === null && y > fontSize * 6 && y < height && Math.random() < 0.05) {
-            wordQueue[i] = WORD_POOL[Math.floor(Math.random() * WORD_POOL.length)].split("");
-            wordPos[i] = 0;
-            wordTrail[i] = [];
+            wordCooldown = WORD_COOLDOWN; // wait before next word
           }
 
           text = charsArray[Math.floor(Math.random() * charsArray.length)];
         }
 
-        // Draw character — word chars get a subtle bright tint
+        // Draw character — word chars get a bright glow
         if (isWordChar) {
-          ctx.fillStyle = "#b0ffb0";
+          ctx.save();
+          ctx.shadowColor = accent;
+          ctx.shadowBlur = 20;
+          ctx.fillStyle = "#ffffff";
           ctx.fillText(text, x, y);
+          ctx.fillText(text, x, y); // double-draw for extra bloom
+          ctx.restore();
           ctx.fillStyle = accent;
         } else {
           ctx.fillStyle = accent;
@@ -140,7 +183,7 @@ export function MatrixRain({ active }: MatrixRainProps) {
         }
 
         // Reset column to top randomly after leaving viewport
-        if (y > height && Math.random() > 0.985) {
+        if (y > height + 200 || (y > height && Math.random() > 0.90)) {
           yPositions[i] = 0;
         } else {
           yPositions[i] = y + fontSize;
@@ -159,10 +202,11 @@ export function MatrixRain({ active }: MatrixRainProps) {
         ctx.save();
         ctx.globalAlpha = alpha;
         ctx.shadowColor = accent;
-        ctx.shadowBlur = 24 * alpha;
+        ctx.shadowBlur = 40 * alpha;
         ctx.fillStyle = "#ffffff";
         ctx.font = `${fontSize}px monospace`;
         ctx.fillText(p.char, p.x, p.y);
+        ctx.fillText(p.char, p.x, p.y); // double-draw for brighter bloom
         ctx.restore();
 
         p.intensity -= GLOW_DECAY;
@@ -184,7 +228,7 @@ export function MatrixRain({ active }: MatrixRainProps) {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none -z-10 opacity-[0.08] select-none"
+      className="fixed inset-0 pointer-events-none -z-10 opacity-[0.12] select-none"
     />
   );
 }

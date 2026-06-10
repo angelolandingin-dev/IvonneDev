@@ -312,7 +312,7 @@ export default function App() {
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tighter text-white">
               <span className="text-terminal-accent opacity-50">&gt; </span>
-              <DecryptedText text="MARK_ANGELO_LANDINGIN" triggerOnHover={true} />
+              <DecryptedText text="MARK_ANGELO_LANDINGIN" japaneseText="イヴォン_デヴ" triggerOnHover={true} />
               <span className="cursor-blink">_</span>
             </h1>
             <p className="text-white/60 max-w-2xl text-sm leading-relaxed font-sans">
@@ -537,7 +537,7 @@ export default function App() {
         <section className="space-y-8">
           <div className="flex items-center gap-4 border-l-2 border-terminal-accent pl-6 mb-12">
             <h2 className="text-4xl font-bold uppercase tracking-tighter text-white">
-              <DecryptedText text="Tech_Stack" triggerOnHover={true} />
+              <DecryptedText text="Tech_Stack" japaneseText="テック_スタック" triggerOnHover={true} />
             </h2>
             <div className="h-px bg-white/10 flex-grow" />
           </div>
@@ -566,7 +566,7 @@ export default function App() {
         <section className="space-y-8 mt-24">
           <div className="flex items-center gap-4 border-l-2 border-terminal-accent pl-6 mb-12">
             <h2 className="text-4xl font-bold uppercase tracking-tighter text-white">
-              <DecryptedText text="Project_Archive" triggerOnHover={true} />
+              <DecryptedText text="Project_Archive" japaneseText="プロジェクト_アーカイブ" triggerOnHover={true} />
             </h2>
             <div className="h-px bg-white/10 flex-grow" />
             <span className="text-[10px] font-bold text-white/30 uppercase tabular-nums">Items: 04</span>
