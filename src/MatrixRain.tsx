@@ -99,7 +99,7 @@ export function MatrixRain({ active }: MatrixRainProps) {
 
     // ─── Cooldown timer for word injection (constant rate) ─────────────────────
     let wordCooldown = 0; // frames to wait before next injection
-    const WORD_COOLDOWN = 20; // ~3.2s between words at 80ms interval
+    const WORD_COOLDOWN = 10; // ~3.2s between words at 80ms interval
 
     const getAccentColor = () => {
       const color = getComputedStyle(document.documentElement)

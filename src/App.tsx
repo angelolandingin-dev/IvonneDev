@@ -97,6 +97,19 @@ const WindowHeader = ({
   </div>
 );
 
+const CornerBrackets = () => (
+  <>
+    {/* Top Left */}
+    <div className="absolute top-[-6px] left-[-6px] w-3 h-3 border-t-2 border-l-2 border-terminal-accent opacity-0 scale-90 translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 shadow-[0_0_6px_var(--color-terminal-accent-glow)]" />
+    {/* Top Right */}
+    <div className="absolute top-[-6px] right-[-6px] w-3 h-3 border-t-2 border-r-2 border-terminal-accent opacity-0 scale-90 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 shadow-[0_0_6px_var(--color-terminal-accent-glow)]" />
+    {/* Bottom Left */}
+    <div className="absolute bottom-[-6px] left-[-6px] w-3 h-3 border-b-2 border-l-2 border-terminal-accent opacity-0 scale-90 translate-x-1 -translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 shadow-[0_0_6px_var(--color-terminal-accent-glow)]" />
+    {/* Bottom Right */}
+    <div className="absolute bottom-[-6px] right-[-6px] w-3 h-3 border-b-2 border-r-2 border-terminal-accent opacity-0 scale-90 -translate-x-1 -translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-20 shadow-[0_0_6px_var(--color-terminal-accent-glow)]" />
+  </>
+);
+
 export default function App() {
   const [activeTab, setActiveTab] = useState("system");
   const [matrixActive, setMatrixActive] = useState(true);
@@ -329,7 +342,8 @@ export default function App() {
         <main className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Main Terminal Window: Biography & Focus */}
           <section className="lg:col-span-8">
-            <div className="terminal-window border border-terminal-accent/20 overflow-hidden shadow-2xl">
+            <div className="terminal-window border border-terminal-accent/20 shadow-2xl relative group">
+              <CornerBrackets />
               <WindowHeader 
                 title="system_overview.sh" 
                 tabs={[
@@ -467,7 +481,8 @@ export default function App() {
 
           {/* Side Module: Contact Info */}
           <aside className="lg:col-span-4 space-y-8">
-            <div className="terminal-window border border-terminal-accent/30 bg-terminal-accent/5 shadow-xl">
+            <div className="terminal-window border border-terminal-accent/30 bg-terminal-accent/5 shadow-xl relative group">
+              <CornerBrackets />
               <WindowHeader title="establish_link.exe" />
               <div className="p-6 space-y-6">
                 <a 
@@ -522,7 +537,8 @@ export default function App() {
             </div>
 
             {/* Status Module */}
-            <div className="terminal-window border border-white/10 bg-white/2 p-6 flex flex-col items-center text-center">
+            <div className="terminal-window border border-white/10 bg-white/2 p-6 flex flex-col items-center text-center relative group">
+              <CornerBrackets />
               <Coffee size={24} className="text-white/20 mb-4" />
               <span className="text-[10px] font-bold text-white/40 uppercase tracking-[0.3em]">Status_Report</span>
               <p className="text-xs text-terminal-accent mt-4 font-mono font-bold tracking-tighter bg-black/40 p-2 border border-white/5 w-full">
@@ -544,7 +560,8 @@ export default function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {SKILLS.map((skill) => (
-              <div key={skill.category} className="terminal-window border border-white/5 bg-black/60">
+              <div key={skill.category} className="terminal-window border border-white/5 bg-black/60 relative group">
+                <CornerBrackets />
                 <div className="p-3 bg-white/5 font-bold text-[10px] tracking-widest text-white uppercase flex items-center justify-between">
                   <span>CATEGORY__{skill.category}</span>
                   <Database size={10} className="text-terminal-accent" />
@@ -579,7 +596,7 @@ export default function App() {
                 href={project.link}
                 target="_blank"
                 rel="noreferrer"
-                className="bg-black/40 p-8 space-y-6 group hover:bg-terminal-accent/5 transition-all relative overflow-hidden"
+                className="flex flex-col justify-between h-full bg-black/40 p-8 space-y-6 group hover:bg-terminal-accent/5 transition-all relative"
               >
                 <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                   <ArrowRight size={20} className="text-terminal-accent" />

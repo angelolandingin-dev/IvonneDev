@@ -9,7 +9,7 @@
   --color-terminal-text: #e0e0e0;
   --color-terminal-accent: #22c55e; /* Green-500 */
   --color-terminal-accent-muted: #166534; /* Green-800 */
-  --color-terminal-accent-glow: transparent;
+  --color-terminal-accent-glow: rgba(34, 197, 94, 0.4);
 }
 
 @layer base {
