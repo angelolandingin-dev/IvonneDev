@@ -123,6 +123,7 @@ export default function App() {
   const [crashCountdown, setCrashCountdown] = useState(5);
   const [currentPlaceholder, setCurrentPlaceholder] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [hasSubmittedCommand, setHasSubmittedCommand] = useState(false);
 
   const placeholderPhrases = ["type 'help'...", "type 'about'...", "type 'projects'...", "type 'skills'...", "type 'neofetch'..."];
 
@@ -220,6 +221,8 @@ export default function App() {
     e.preventDefault();
     const cmd = shellInput.trim();
     if (!cmd) return;
+
+    setHasSubmittedCommand(true);
 
     const newHistory = [...shellHistory, `guest@ivonne-core:~$ ${cmd}`];
     const parts = cmd.split(" ");
@@ -489,7 +492,7 @@ export default function App() {
                   </div>
 
                   <form onSubmit={handleCommandSubmit} className="flex items-center gap-2 border-t border-white/10 pt-4 font-mono text-xs relative">
-                    {!isInputFocused && !shellInput && (
+                    {!isInputFocused && !hasSubmittedCommand && (
                       <div className="absolute top-[-44px] left-[150px] flex flex-col items-center animate-bounce pointer-events-none z-30">
                         <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-neutral-300 drop-shadow-[0_0_4px_rgba(255,255,255,0.5)]">TYPE HERE</span>
                         <ArrowDown size={24} className="mt-0.5 mb-1 text-white/90 drop-shadow-[0_0_6px_rgba(255,255,255,0.65)]" />
