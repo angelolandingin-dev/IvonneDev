@@ -1,6 +1,10 @@
+import { useState, useEffect, useRef, FormEvent } from "react";
 import { motion } from "motion/react";
 import { Terminal, Github, Linkedin, Mail, ArrowRight, Code2, Database, Shield, Monitor, Coffee, HelpCircle, Minus, Square, X } from "lucide-react";
 import { Project, Skill } from "./types";
+import { CursorTrail } from "./CursorTrail";
+import { MatrixRain } from "./MatrixRain";
+import { DecryptedText } from "./DecryptedText";
 
 const PROJECTS: Project[] = [
   {
@@ -48,14 +52,43 @@ const SKILLS: Skill[] = [
   }
 ];
 
-const WindowHeader = ({ title }: { title: string }) => (
-  <div className="bg-white/5 border-b border-white/10 p-2 flex items-center justify-between">
+const WindowHeader = ({ 
+  title, 
+  tabs, 
+  activeTab, 
+  setActiveTab 
+}: { 
+  title: string;
+  tabs?: { id: string; label: string }[];
+  activeTab?: string;
+  setActiveTab?: (id: string) => void;
+}) => (
+  <div className="bg-white/5 border-b border-white/10 p-2 flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap">
     <div className="flex items-center gap-2 px-2">
       <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
       <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
       <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
+      <span className="text-[10px] uppercase font-bold text-white/40 tracking-widest ml-2">{title}</span>
     </div>
-    <span className="text-[10px] uppercase font-bold text-white/40 tracking-widest">{title}</span>
+    
+    {tabs && setActiveTab && (
+      <div className="flex items-center gap-1 bg-black/40 border border-white/5 p-0.5 rounded text-[9px] font-bold">
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`px-2 py-0.5 rounded transition-all uppercase cursor-pointer ${
+              activeTab === tab.id 
+                ? "bg-terminal-accent text-black font-extrabold" 
+                : "text-white/40 hover:text-white/80"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+    )}
+
     <div className="flex items-center gap-4 px-2 text-white/20">
       <Minus size={12} />
       <Square size={10} />
@@ -65,11 +98,209 @@ const WindowHeader = ({ title }: { title: string }) => (
 );
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState("system");
+  const [matrixActive, setMatrixActive] = useState(false);
+  const [shellHistory, setShellHistory] = useState<string[]>([
+    "INITIALIZING IVONNE-CORE v2.0.4...",
+    "SYSTEM DEPLOYED SUCCESSFULLY.",
+    "TYPE 'help' TO VIEW AVAILABLE COMMANDS.",
+    ""
+  ]);
+  const [shellInput, setShellInput] = useState("");
+  const [currentTheme, setCurrentTheme] = useState("green");
+  const [crashActive, setCrashActive] = useState(false);
+  const [crashCountdown, setCrashCountdown] = useState(5);
+  
+  const shellContainerRef = useRef<HTMLDivElement>(null);
+
+  const themeColors: Record<string, { accent: string; muted: string; glow: string }> = {
+    green: { accent: "#22c55e", muted: "#166534", glow: "rgba(34, 197, 94, 0.4)" },
+    amber: { accent: "#f59e0b", muted: "#b45309", glow: "rgba(245, 158, 11, 0.4)" },
+    blue: { accent: "#06b6d4", muted: "#0e7490", glow: "rgba(6, 182, 212, 0.4)" },
+    red: { accent: "#ef4444", muted: "#b91c1c", glow: "rgba(239, 68, 68, 0.4)" }
+  };
+
+  const handleThemeChange = (themeName: string) => {
+    const theme = themeColors[themeName.toLowerCase()];
+    if (theme) {
+      document.documentElement.style.setProperty("--color-terminal-accent", theme.accent);
+      document.documentElement.style.setProperty("--color-terminal-accent-muted", theme.muted);
+      document.documentElement.style.setProperty("--color-terminal-accent-glow", theme.glow);
+      setCurrentTheme(themeName.toLowerCase());
+      return true;
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    if (activeTab === "shell" && shellContainerRef.current) {
+      shellContainerRef.current.scrollTop = shellContainerRef.current.scrollHeight;
+    }
+  }, [shellHistory, activeTab]);
+
+  useEffect(() => {
+    if (!crashActive) return;
+
+    if (crashCountdown > 0) {
+      const timer = setTimeout(() => {
+        setCrashCountdown(prev => prev - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setCrashActive(false);
+      setShellHistory([
+        "REBOOT COMPLETE.",
+        "SYSTEM RESTORED.",
+        "IVONNE-CORE v2.0.4 IS RUNNING STABLE.",
+        "TYPE 'help' TO VIEW AVAILABLE COMMANDS.",
+        ""
+      ]);
+    }
+  }, [crashActive, crashCountdown]);
+
+  const handleCommandSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const cmd = shellInput.trim();
+    if (!cmd) return;
+
+    const newHistory = [...shellHistory, `guest@ivonne-core:~$ ${cmd}`];
+    const parts = cmd.split(" ");
+    const commandName = parts[0].toLowerCase();
+    const args = parts.slice(1);
+
+    switch (commandName) {
+      case "help":
+        newHistory.push(
+          "Available commands:",
+          "  about     - Display personal overview",
+          "  projects  - List repository and commissions",
+          "  skills    - Display technical skills stack",
+          "  theme     - Change system color theme (usage: theme [green|amber|blue|red])",
+          "  matrix    - Toggle matrix rain background effect",
+          "  neofetch  - Display system information",
+          "  clear     - Clear terminal screen",
+          "  sudo      - Run system maintenance (warning: dangerous)",
+          ""
+        );
+        break;
+      case "about":
+        newHistory.push(
+          "User: Ivonne.dev (Mark Angelo Landingin)",
+          "Degree: BS Computer Science Graduate from Universidad de Dagupan",
+          "Role: Fullstack web developer focused on React architectures and system design.",
+          "Bio: Bridging web logic with system efficiency.",
+          ""
+        );
+        break;
+      case "projects":
+        PROJECTS.forEach(p => {
+          newHistory.push(
+            `[${p.title}] (${p.year})`,
+            `  Tech: ${p.tags.join(", ")}`,
+            `  Desc: ${p.description}`,
+            p.link ? `  Link: ${p.link}` : "",
+            ""
+          );
+        });
+        break;
+      case "skills":
+        SKILLS.forEach(s => {
+          newHistory.push(
+            `[${s.category}]`,
+            `  ${s.items.join(", ")}`,
+            ""
+          );
+        });
+        break;
+      case "neofetch":
+        newHistory.push(
+          "        ,---.       guest@ivonne-core",
+          "       /     \\      -----------------",
+          "      | () () |     OS: Client Web Browser",
+          "       \\  ^  /      Kernel: React 19.0.1",
+          "        |||||       Host: Vite Dev Server",
+          "        |||||       Uptime: 10m",
+          `                    Theme: ${currentTheme.toUpperCase()}`,
+          "                    Shell: TypeScript Core v2.0",
+          "                    Memory: Infinite",
+          ""
+        );
+        break;
+      case "theme":
+        if (args.length === 0) {
+          newHistory.push("Usage: theme [green|amber|blue|red]", "");
+        } else {
+          const success = handleThemeChange(args[0]);
+          if (success) {
+            newHistory.push(`Theme successfully changed to ${args[0].toUpperCase()}.`, "");
+          } else {
+            newHistory.push(`Error: Theme '${args[0]}' not recognized. Try green, amber, blue, or red.`, "");
+          }
+        }
+        break;
+      case "matrix":
+        setMatrixActive(prev => {
+          const next = !prev;
+          newHistory.push(`Matrix background effect: ${next ? "ENABLED" : "DISABLED"}.`, "");
+          return next;
+        });
+        break;
+      case "clear":
+        setShellHistory([]);
+        setShellInput("");
+        return;
+      case "sudo":
+        setCrashActive(true);
+        setCrashCountdown(5);
+        newHistory.push("WARNING: CORRUPTING SYSTEM FILES...", "CRITICAL EXCEPTION OCCURRED. INITIATING EMERGENCY SYSTEM REBOOT...", "");
+        break;
+      default:
+        newHistory.push(`bash: ${commandName}: command not found. Type 'help' for options.`, "");
+    }
+
+    setShellHistory(newHistory);
+    setShellInput("");
+  };
+
   return (
     <div className="relative min-h-screen">
+      {/* Background canvas effects */}
+      <CursorTrail />
+      <MatrixRain active={matrixActive} />
+
       {/* Visual background layers */}
       <div className="fixed inset-0 scanline opacity-30 z-50 pointer-events-none" />
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.05),transparent)] pointer-events-none" />
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,var(--color-terminal-accent-glow),transparent)] pointer-events-none" />
+
+      {/* Simulated System Crash Overlay */}
+      {crashActive && (
+        <div className="fixed inset-0 bg-black/95 z-50 flex flex-col items-center justify-center p-4 font-mono text-red-500 overflow-hidden select-none">
+          <div className="max-w-md w-full space-y-6 text-center border-2 border-red-500/30 p-8 bg-red-950/20 backdrop-blur-md">
+            <div className="animate-pulse flex flex-col items-center">
+              <Shield size={48} className="text-red-500 mb-4 animate-bounce" />
+              <span className="text-xl font-bold tracking-widest uppercase text-glow">!!! SYSTEM CRASH !!!</span>
+            </div>
+            <div className="text-xs text-left bg-black p-4 border border-red-500/20 max-h-48 overflow-y-auto space-y-1">
+              <p className="text-red-400 font-bold">[WARN] RM -RF /RUN/SYSTEM/CORE</p>
+              <p className="text-red-500/70">Deleting src/App.tsx ... DONE</p>
+              <p className="text-red-500/70">Deleting src/index.css ... DONE</p>
+              <p className="text-red-500/70">Clearing buffer caches ... DONE</p>
+              <p className="text-red-500/70">Destroying visual elements ... DONE</p>
+              <p className="text-red-400 font-bold">[CRIT] KERNEL PANIC: CORE DELETED</p>
+              <p className="text-red-400 font-bold">[OK] INITIATING EMERGENCY RESTORE IN {crashCountdown}S</p>
+            </div>
+            <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+              <div 
+                className="bg-red-500 h-full transition-all duration-1000"
+                style={{ width: `${((5 - crashCountdown) / 5) * 100}%` }}
+              />
+            </div>
+            <span className="text-[10px] text-red-500/50 uppercase tracking-widest">
+              Self-healing protocol active. Please do not close your browser.
+            </span>
+          </div>
+        </div>
+      )}
 
       <div className="p-4 md:p-8 lg:p-12 max-w-7xl mx-auto space-y-12">
         {/* Profile / Header */}
@@ -81,7 +312,8 @@ export default function App() {
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tighter text-white">
               <span className="text-terminal-accent opacity-50">&gt; </span>
-              MARK_ANGELO_LANDINGIN<span className="cursor-blink">_</span>
+              <DecryptedText text="MARK_ANGELO_LANDINGIN" triggerOnHover={true} />
+              <span className="cursor-blink">_</span>
             </h1>
             <p className="text-white/60 max-w-2xl text-sm leading-relaxed font-sans">
               BS Computer Science graduate from <span className="text-white font-bold">Universidad de Dagupan</span>. 
@@ -98,91 +330,138 @@ export default function App() {
           {/* Main Terminal Window: Biography & Focus */}
           <section className="lg:col-span-8">
             <div className="terminal-window border border-terminal-accent/20 overflow-hidden shadow-2xl">
-              <WindowHeader title="system_overview.sh" />
-              <div className="p-6 md:p-8 space-y-8 bg-black/20">
-                {/* Command Header */}
-                <div className="flex items-center gap-3 font-mono text-sm border-b border-white/5 pb-4">
-                  <span className="text-terminal-accent">ivonne@dev:~$</span>
-                  <span className="text-white italic">fetch --profile mark-angelo</span>
-                  <span className="cursor-blink w-2 h-4 bg-terminal-accent inline-block align-middle ml-1" />
-                </div>
+              <WindowHeader 
+                title="system_overview.sh" 
+                tabs={[
+                  { id: "system", label: "System Info" },
+                  { id: "shell", label: "Interactive Shell" }
+                ]}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+              />
+              
+              {activeTab === "system" ? (
+                <div className="p-6 md:p-8 space-y-8 bg-black/20">
+                  {/* Command Header */}
+                  <div className="flex items-center gap-3 font-mono text-sm border-b border-white/5 pb-4">
+                    <span className="text-terminal-accent">ivonne@dev:~$</span>
+                    <span className="text-white italic">fetch --profile mark-angelo</span>
+                    <span className="cursor-blink w-2 h-4 bg-terminal-accent inline-block align-middle ml-1" />
+                  </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-                  {/* Left: Identity Disk */}
-                  <div className="md:col-span-5 space-y-6">
-                    <div className="relative aspect-square max-w-[280px] md:max-w-none mx-auto md:mx-0 border-2 border-terminal-accent/20 p-2 group overflow-hidden">
-                      <div className="absolute inset-0 bg-terminal-accent/5 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
-                      <div className="h-full w-full border border-white/10 flex flex-col items-center justify-center text-center p-4 relative z-10">
-                        <Terminal size={40} className="md:size-12 text-terminal-accent/40 mb-4" />
-                        <div className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-1">Degree_Hash</div>
-                        <div className="text-xs md:text-sm font-bold text-white uppercase leading-tight mb-4">
-                          BS_COMPUTER_SCIENCE<br />UD_PRO_V1
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+                    {/* Left: Identity Disk */}
+                    <div className="md:col-span-5 space-y-6">
+                      <div className="relative aspect-square max-w-[280px] md:max-w-none mx-auto md:mx-0 border-2 border-terminal-accent/20 p-2 group overflow-hidden">
+                        <div className="absolute inset-0 bg-terminal-accent/5 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
+                        <div className="h-full w-full border border-white/10 flex flex-col items-center justify-center text-center p-4 relative z-10">
+                          <Terminal size={40} className="md:size-12 text-terminal-accent/40 mb-4" />
+                          <div className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-1">Degree_Hash</div>
+                          <div className="text-xs md:text-sm font-bold text-white uppercase leading-tight mb-4">
+                            BS_COMPUTER_SCIENCE<br />UD_PRO_V1
+                          </div>
+                          <div className="w-full h-px bg-white/10 my-2" />
+                          <div className="text-[9px] text-white/60 font-mono italic">
+                            "Bridging web logic with system efficiency."
+                          </div>
                         </div>
-                        <div className="w-full h-px bg-white/10 my-2" />
-                        <div className="text-[9px] text-white/60 font-mono italic">
-                          "Bridging web logic with system efficiency."
+                      </div>
+                    </div>
+
+                    {/* Right: Core Modules */}
+                    <div className="md:col-span-7 space-y-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3">
+                          <Monitor className="text-terminal-accent" size={16} />
+                          <span className="text-xs font-bold text-white uppercase tracking-widest">Web_Operations</span>
+                        </div>
+                        <div className="grid grid-cols-1 gap-2">
+                          {[
+                            "SCALABLE_REACT_ARCHITECTURES",
+                            "REALTIME_FIREBASE_SYNC",
+                            "FLUID_UI_SYSTEMS_W_TAILWIND"
+                          ].map(item => (
+                            <div key={item} className="flex items-center gap-3 text-[10px] text-white/70 font-mono">
+                              <span className="text-terminal-accent">[OK]</span>
+                              {item}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3">
+                          <Code2 className="text-terminal-accent" size={16} />
+                          <span className="text-xs font-bold text-white uppercase tracking-widest">Software_Foundations</span>
+                        </div>
+                        <div className="grid grid-cols-1 gap-2">
+                          {[
+                            "DISTRIBUTED_SYSTEMS_DESIGN",
+                            "ALGORITHMIC_OPTIMIZATION",
+                            "FULL_STACK_INTEGRATION"
+                          ].map(item => (
+                            <div key={item} className="flex items-center gap-3 text-[10px] text-white/70 font-mono">
+                              <span className="text-terminal-accent opacity-50">&gt;&gt;</span>
+                              {item}
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right: Core Modules */}
-                  <div className="md:col-span-7 space-y-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Monitor className="text-terminal-accent" size={16} />
-                        <span className="text-xs font-bold text-white uppercase tracking-widest">Web_Operations</span>
+                  {/* Bottom diagnostic row */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-4 border-t border-white/5">
+                    {[
+                      { l: "MEMORY", v: "88%" },
+                      { l: "CORES", v: "08/08" },
+                      { l: "CACHE", v: "CLEAN" },
+                      { l: "IO", v: "STABLE" }
+                    ].map(d => (
+                      <div key={d.l} className="border border-white/10 p-2 flex justify-between items-center group hover:border-terminal-accent/50 transition-colors">
+                        <span className="text-[10px] text-white/20 font-bold">{d.l}</span>
+                        <span className="text-[10px] text-terminal-accent font-bold group-hover:text-glow">{d.v}</span>
                       </div>
-                      <div className="grid grid-cols-1 gap-2">
-                        {[
-                          "SCALABLE_REACT_ARCHITECTURES",
-                          "REALTIME_FIREBASE_SYNC",
-                          "FLUID_UI_SYSTEMS_W_TAILWIND"
-                        ].map(item => (
-                          <div key={item} className="flex items-center gap-3 text-[10px] text-white/70 font-mono">
-                            <span className="text-terminal-accent">[OK]</span>
-                            {item}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Code2 className="text-terminal-accent" size={16} />
-                        <span className="text-xs font-bold text-white uppercase tracking-widest">Software_Foundations</span>
-                      </div>
-                      <div className="grid grid-cols-1 gap-2">
-                        {[
-                          "DISTRIBUTED_SYSTEMS_DESIGN",
-                          "ALGORITHMIC_OPTIMIZATION",
-                          "FULL_STACK_INTEGRATION"
-                        ].map(item => (
-                          <div key={item} className="flex items-center gap-3 text-[10px] text-white/70 font-mono">
-                            <span className="text-terminal-accent opacity-50">&gt;&gt;</span>
-                            {item}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
+              ) : (
+                <div className="p-6 md:p-8 space-y-4 bg-black/40 h-[380px] flex flex-col justify-between">
+                  <div 
+                    ref={shellContainerRef}
+                    className="flex-grow overflow-y-auto space-y-2 font-mono text-xs select-text pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent"
+                  >
+                    {shellHistory.map((line, idx) => (
+                      <div 
+                        key={idx} 
+                        className={`whitespace-pre-wrap ${
+                          line.startsWith("guest@ivonne-core") 
+                            ? "text-white font-bold" 
+                            : line.startsWith("bash:") || line.startsWith("Error:") || line.startsWith("WARNING:") || line.startsWith("CRITICAL EXCEPTION")
+                            ? "text-red-400 font-bold"
+                            : line.startsWith("Theme successfully") || line.startsWith("Theme: ")
+                            ? "text-terminal-accent font-bold"
+                            : "text-white/70"
+                        }`}
+                      >
+                        {line}
+                      </div>
+                    ))}
+                  </div>
 
-                {/* Bottom diagnostic row */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-4 border-t border-white/5">
-                  {[
-                    { l: "MEMORY", v: "88%" },
-                    { l: "CORES", v: "08/08" },
-                    { l: "CACHE", v: "CLEAN" },
-                    { l: "IO", v: "STABLE" }
-                  ].map(d => (
-                    <div key={d.l} className="border border-white/10 p-2 flex justify-between items-center group hover:border-terminal-accent/50 transition-colors">
-                      <span className="text-[10px] text-white/20 font-bold">{d.l}</span>
-                      <span className="text-[10px] text-terminal-accent font-bold group-hover:text-glow">{d.v}</span>
-                    </div>
-                  ))}
+                  <form onSubmit={handleCommandSubmit} className="flex items-center gap-2 border-t border-white/10 pt-4 font-mono text-xs">
+                    <span className="text-terminal-accent font-bold">guest@ivonne-core:~$</span>
+                    <input
+                      type="text"
+                      value={shellInput}
+                      onChange={(e) => setShellInput(e.target.value)}
+                      className="flex-grow bg-transparent border-none outline-none text-white caret-terminal-accent focus:ring-0 focus:outline-none"
+                      placeholder="type 'help'..."
+                      autoFocus
+                    />
+                  </form>
                 </div>
-              </div>
+              )}
             </div>
           </section>
 
@@ -257,7 +536,9 @@ export default function App() {
         {/* Stack Detail: Grid View */}
         <section className="space-y-8">
           <div className="flex items-center gap-4 border-l-2 border-terminal-accent pl-6 mb-12">
-            <h2 className="text-4xl font-bold uppercase tracking-tighter text-white">Tech_Stack</h2>
+            <h2 className="text-4xl font-bold uppercase tracking-tighter text-white">
+              <DecryptedText text="Tech_Stack" triggerOnHover={true} />
+            </h2>
             <div className="h-px bg-white/10 flex-grow" />
           </div>
 
@@ -284,7 +565,9 @@ export default function App() {
         {/* Project Archive Section: Expansive Grid */}
         <section className="space-y-8 mt-24">
           <div className="flex items-center gap-4 border-l-2 border-terminal-accent pl-6 mb-12">
-            <h2 className="text-4xl font-bold uppercase tracking-tighter text-white">Project_Archive</h2>
+            <h2 className="text-4xl font-bold uppercase tracking-tighter text-white">
+              <DecryptedText text="Project_Archive" triggerOnHover={true} />
+            </h2>
             <div className="h-px bg-white/10 flex-grow" />
             <span className="text-[10px] font-bold text-white/30 uppercase tabular-nums">Items: 04</span>
           </div>

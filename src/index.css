@@ -9,11 +9,19 @@
   --color-terminal-text: #e0e0e0;
   --color-terminal-accent: #22c55e; /* Green-500 */
   --color-terminal-accent-muted: #166534; /* Green-800 */
+  --color-terminal-accent-glow: rgba(34, 197, 94, 0.4);
 }
 
 @layer base {
   body {
     @apply bg-terminal-bg text-terminal-text font-mono selection:bg-terminal-accent selection:text-black antialiased overflow-x-hidden;
+  }
+
+  /* Smoothly transition all theme color modifications */
+  *, *::before, *::after {
+    transition-property: color, border-color, background-color, text-shadow, box-shadow, text-decoration-color;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -46,6 +54,7 @@
   }
 
   .text-glow {
-    text-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+    text-shadow: 0 0 10px var(--color-terminal-accent-glow);
   }
 }
+
