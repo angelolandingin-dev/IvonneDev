@@ -9,7 +9,7 @@ export function MatrixRain({ active }: MatrixRainProps) {
 
   useEffect(() => {
     if (!active) return;
-    
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -21,7 +21,7 @@ export function MatrixRain({ active }: MatrixRainProps) {
     const handleResize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      
+
       // Re-initialize columns on resize
       const newCols = Math.floor(width / fontSize) + 1;
       // Adjust yPositions array length if necessary
@@ -34,10 +34,12 @@ export function MatrixRain({ active }: MatrixRainProps) {
     };
     window.addEventListener("resize", handleResize);
 
-    const fontSize = 14;
-    const columns = Math.floor(width / fontSize) + 1;
-    // Stagger initial vertical positions to avoid a uniform line at the start
-    const yPositions = Array.from({ length: columns }, () => Math.random() * -height);
+    const fontSize = 32; // smaller characters for finer rain effect
+    const columns = Math.floor(width / fontSize * 4) + 1;
+    const yPositions: number[] = [];
+    for (let i = 0; i < columns; i++) {
+      yPositions[i] = Math.random() * -height;
+    }
 
     const matrixChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$<>[]{}#@%&+*=";
     const charsArray = matrixChars.split("");
@@ -62,7 +64,7 @@ export function MatrixRain({ active }: MatrixRainProps) {
 
       for (let i = 0; i < yPositions.length; i++) {
         const text = charsArray[Math.floor(Math.random() * charsArray.length)];
-        const x = i * fontSize;
+        const x = i * fontSize * 4; // increased column spacing
         const y = yPositions[i];
 
         // Draw character
@@ -78,7 +80,7 @@ export function MatrixRain({ active }: MatrixRainProps) {
     };
 
     // Run matrix animation at ~30 FPS
-    const intervalTime = 35;
+    const intervalTime = 80;
     intervalId = window.setInterval(draw, intervalTime);
 
     return () => {
@@ -92,7 +94,7 @@ export function MatrixRain({ active }: MatrixRainProps) {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none -z-10 opacity-[0.06] select-none"
+      className="fixed inset-0 pointer-events-none -z-10 opacity-[0.08] select-none"
     />
   );
 }

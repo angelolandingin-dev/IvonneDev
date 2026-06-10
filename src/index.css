@@ -5,11 +5,11 @@
   --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   
-  --color-terminal-bg: #0a0a0a;
+  --color-terminal-bg: #000000;
   --color-terminal-text: #e0e0e0;
   --color-terminal-accent: #22c55e; /* Green-500 */
   --color-terminal-accent-muted: #166534; /* Green-800 */
-  --color-terminal-accent-glow: rgba(34, 197, 94, 0.4);
+  --color-terminal-accent-glow: transparent;
 }
 
 @layer base {
@@ -41,7 +41,7 @@
   }
 
   .terminal-window {
-    @apply border border-white/10 bg-black/40 backdrop-blur-sm;
+    @apply border border-white/10 bg-black;
   }
 
   .cursor-blink {
@@ -54,7 +54,7 @@
   }
 
   .text-glow {
-    text-shadow: 0 0 10px var(--color-terminal-accent-glow);
+    /* No glow effect */
   }
 }
 

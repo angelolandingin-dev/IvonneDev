@@ -99,7 +99,7 @@ const WindowHeader = ({
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("system");
-  const [matrixActive, setMatrixActive] = useState(false);
+  const [matrixActive, setMatrixActive] = useState(true);
   const [shellHistory, setShellHistory] = useState<string[]>([
     "INITIALIZING IVONNE-CORE v2.0.4...",
     "SYSTEM DEPLOYED SUCCESSFULLY.",
@@ -270,7 +270,7 @@ export default function App() {
 
       {/* Visual background layers */}
       <div className="fixed inset-0 scanline opacity-30 z-50 pointer-events-none" />
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,var(--color-terminal-accent-glow),transparent)] pointer-events-none" />
+
 
       {/* Simulated System Crash Overlay */}
       {crashActive && (
