@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, FormEvent } from "react";
 import { motion } from "motion/react";
-import { Terminal, Github, Linkedin, Mail, ArrowRight, Code2, Database, Shield, Monitor, Coffee, HelpCircle, Minus, Square, X } from "lucide-react";
+import { Terminal, Github, Linkedin, Mail, ArrowRight, Code2, Database, Shield, Monitor, Coffee, HelpCircle, Minus, Square, X, ArrowDown } from "lucide-react";
 import { Project, Skill } from "./types";
 import { CursorTrail } from "./CursorTrail";
 import { MatrixRain } from "./MatrixRain";
@@ -52,12 +52,12 @@ const SKILLS: Skill[] = [
   }
 ];
 
-const WindowHeader = ({ 
-  title, 
-  tabs, 
-  activeTab, 
-  setActiveTab 
-}: { 
+const WindowHeader = ({
+  title,
+  tabs,
+  activeTab,
+  setActiveTab
+}: {
   title: string;
   tabs?: { id: string; label: string }[];
   activeTab?: string;
@@ -70,18 +70,17 @@ const WindowHeader = ({
       <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
       <span className="text-[10px] uppercase font-bold text-white/40 tracking-widest ml-2">{title}</span>
     </div>
-    
+
     {tabs && setActiveTab && (
       <div className="flex items-center gap-1 bg-black/40 border border-white/5 p-0.5 rounded text-[9px] font-bold">
         {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-2 py-0.5 rounded transition-all uppercase cursor-pointer ${
-              activeTab === tab.id 
-                ? "bg-terminal-accent text-black font-extrabold" 
-                : "text-white/40 hover:text-white/80"
-            }`}
+            className={`px-2 py-0.5 rounded transition-all uppercase cursor-pointer ${activeTab === tab.id
+              ? "bg-terminal-accent text-black font-extrabold"
+              : "text-white/40 hover:text-white/80"
+              }`}
           >
             {tab.label}
           </button>
@@ -111,7 +110,6 @@ const CornerBrackets = () => (
 );
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState("system");
   const [matrixActive, setMatrixActive] = useState(true);
   const [shellHistory, setShellHistory] = useState<string[]>([
     "INITIALIZING IVONNE-CORE v2.0.4...",
@@ -123,8 +121,55 @@ export default function App() {
   const [currentTheme, setCurrentTheme] = useState("green");
   const [crashActive, setCrashActive] = useState(false);
   const [crashCountdown, setCrashCountdown] = useState(5);
-  
+  const [currentPlaceholder, setCurrentPlaceholder] = useState("");
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  const placeholderPhrases = ["type 'help'...", "type 'about'...", "type 'projects'...", "type 'skills'...", "type 'neofetch'..."];
+
+  useEffect(() => {
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 150;
+    let timerId: NodeJS.Timeout;
+
+    const tick = () => {
+      const currentPhrase = placeholderPhrases[phraseIndex];
+
+      if (!isDeleting) {
+        // Typing
+        setCurrentPlaceholder(currentPhrase.substring(0, charIndex + 1));
+        charIndex++;
+
+        if (charIndex === currentPhrase.length) {
+          isDeleting = true;
+          typingSpeed = 2000; // Pause at end of phrase
+        } else {
+          typingSpeed = 100 + Math.random() * 80;
+        }
+      } else {
+        // Deleting
+        setCurrentPlaceholder(currentPhrase.substring(0, charIndex - 1));
+        charIndex--;
+
+        if (charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % placeholderPhrases.length;
+          typingSpeed = 500; // Pause before typing next phrase
+        } else {
+          typingSpeed = 50;
+        }
+      }
+
+      timerId = setTimeout(tick, typingSpeed);
+    };
+
+    timerId = setTimeout(tick, typingSpeed);
+    return () => clearTimeout(timerId);
+  }, []);
+
   const shellContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const themeColors: Record<string, { accent: string; muted: string; glow: string }> = {
     green: { accent: "#22c55e", muted: "#166534", glow: "rgba(34, 197, 94, 0.4)" },
@@ -146,10 +191,10 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (activeTab === "shell" && shellContainerRef.current) {
+    if (shellContainerRef.current) {
       shellContainerRef.current.scrollTop = shellContainerRef.current.scrollHeight;
     }
-  }, [shellHistory, activeTab]);
+  }, [shellHistory]);
 
   useEffect(() => {
     if (!crashActive) return;
@@ -303,7 +348,7 @@ export default function App() {
               <p className="text-red-400 font-bold">[OK] INITIATING EMERGENCY RESTORE IN {crashCountdown}S</p>
             </div>
             <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-              <div 
+              <div
                 className="bg-red-500 h-full transition-all duration-1000"
                 style={{ width: `${((5 - crashCountdown) / 5) * 100}%` }}
               />
@@ -329,7 +374,7 @@ export default function App() {
               <span className="cursor-blink">_</span>
             </h1>
             <p className="text-white/60 max-w-2xl text-sm leading-relaxed font-sans">
-              BS Computer Science graduate from <span className="text-white font-bold">Universidad de Dagupan</span>. 
+              BS Computer Science graduate from <span className="text-white font-bold">Universidad de Dagupan</span>.
               Fullstack web developer focused on robust React/Tailwind architectures and scalable backend integrations.
             </p>
           </div>
@@ -344,46 +389,23 @@ export default function App() {
           <section className="lg:col-span-8">
             <div className="terminal-window border border-terminal-accent/20 shadow-2xl relative group">
               <CornerBrackets />
-              <WindowHeader 
-                title="system_overview.sh" 
-                tabs={[
-                  { id: "system", label: "System Info" },
-                  { id: "shell", label: "Interactive Shell" }
-                ]}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-              />
-              
-              {activeTab === "system" ? (
-                <div className="p-6 md:p-8 space-y-8 bg-black/20">
-                  {/* Command Header */}
-                  <div className="flex items-center gap-3 font-mono text-sm border-b border-white/5 pb-4">
-                    <span className="text-terminal-accent">ivonne@dev:~$</span>
-                    <span className="text-white italic">fetch --profile mark-angelo</span>
-                    <span className="cursor-blink w-2 h-4 bg-terminal-accent inline-block align-middle ml-1" />
-                  </div>
+              <WindowHeader title="system_overview.sh" />
 
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-                    {/* Left: Identity Disk */}
-                    <div className="md:col-span-5 space-y-6">
-                      <div className="relative aspect-square max-w-[280px] md:max-w-none mx-auto md:mx-0 border-2 border-terminal-accent/20 p-2 group overflow-hidden">
-                        <div className="absolute inset-0 bg-terminal-accent/5 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
-                        <div className="h-full w-full border border-white/10 flex flex-col items-center justify-center text-center p-4 relative z-10">
-                          <Terminal size={40} className="md:size-12 text-terminal-accent/40 mb-4" />
-                          <div className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-1">Degree_Hash</div>
-                          <div className="text-xs md:text-sm font-bold text-white uppercase leading-tight mb-4">
-                            BS_COMPUTER_SCIENCE<br />UD_PRO_V1
-                          </div>
-                          <div className="w-full h-px bg-white/10 my-2" />
-                          <div className="text-[9px] text-white/60 font-mono italic">
-                            "Bridging web logic with system efficiency."
-                          </div>
-                        </div>
+              <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
+                {/* Left Side: System Info */}
+                <div className="lg:col-span-5 p-6 md:p-8 space-y-8 bg-black/20 flex flex-col justify-between">
+                  <div className="space-y-6">
+                    {/* Command Header */}
+                    <div className="flex flex-col gap-1 font-mono text-sm border-b border-white/5 pb-4">
+                      <span className="text-terminal-accent">ivonne@dev:~$</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-white italic">fetch --profile mark-angelo</span>
+                        <span className="cursor-blink w-2 h-4 bg-terminal-accent inline-block align-middle" />
                       </div>
                     </div>
 
-                    {/* Right: Core Modules */}
-                    <div className="md:col-span-7 space-y-6">
+                    <div className="space-y-6">
+                      {/* Core Modules */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-3">
                           <Monitor className="text-terminal-accent" size={16} />
@@ -425,7 +447,7 @@ export default function App() {
                   </div>
 
                   {/* Bottom diagnostic row */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-4 border-t border-white/5">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-2 pt-4 border-t border-white/5">
                     {[
                       { l: "MEMORY", v: "88%" },
                       { l: "CORES", v: "08/08" },
@@ -439,43 +461,54 @@ export default function App() {
                     ))}
                   </div>
                 </div>
-              ) : (
-                <div className="p-6 md:p-8 space-y-4 bg-black/40 h-[380px] flex flex-col justify-between">
-                  <div 
+
+                {/* Right Side: Interactive Shell */}
+                <div 
+                  onClick={() => inputRef.current?.focus()}
+                  className="lg:col-span-7 p-6 md:p-8 space-y-4 bg-black/40 flex flex-col justify-between min-h-[440px] cursor-text"
+                >
+                  <div
                     ref={shellContainerRef}
-                    className="flex-grow overflow-y-auto space-y-2 font-mono text-xs select-text pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent"
+                    className="flex-grow overflow-y-auto space-y-2 font-mono text-xs select-text pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent max-h-[380px]"
                   >
                     {shellHistory.map((line, idx) => (
-                      <div 
-                        key={idx} 
-                        className={`whitespace-pre-wrap ${
-                          line.startsWith("guest@ivonne-core") 
-                            ? "text-white font-bold" 
-                            : line.startsWith("bash:") || line.startsWith("Error:") || line.startsWith("WARNING:") || line.startsWith("CRITICAL EXCEPTION")
+                      <div
+                        key={idx}
+                        className={`whitespace-pre-wrap ${line.startsWith("guest@ivonne-core")
+                          ? "text-white font-bold"
+                          : line.startsWith("bash:") || line.startsWith("Error:") || line.startsWith("WARNING:") || line.startsWith("CRITICAL EXCEPTION")
                             ? "text-red-400 font-bold"
                             : line.startsWith("Theme successfully") || line.startsWith("Theme: ")
-                            ? "text-terminal-accent font-bold"
-                            : "text-white/70"
-                        }`}
+                              ? "text-terminal-accent font-bold"
+                              : "text-white/70"
+                          }`}
                       >
                         {line}
                       </div>
                     ))}
                   </div>
 
-                  <form onSubmit={handleCommandSubmit} className="flex items-center gap-2 border-t border-white/10 pt-4 font-mono text-xs">
+                  <form onSubmit={handleCommandSubmit} className="flex items-center gap-2 border-t border-white/10 pt-4 font-mono text-xs relative">
+                    {!isInputFocused && !shellInput && (
+                      <div className="absolute top-[-44px] left-[150px] flex flex-col items-center animate-bounce pointer-events-none z-30">
+                        <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-neutral-300 drop-shadow-[0_0_4px_rgba(255,255,255,0.5)]">TYPE HERE</span>
+                        <ArrowDown size={24} className="mt-0.5 mb-1 text-white/90 drop-shadow-[0_0_6px_rgba(255,255,255,0.65)]" />
+                      </div>
+                    )}
                     <span className="text-terminal-accent font-bold">guest@ivonne-core:~$</span>
                     <input
+                      ref={inputRef}
                       type="text"
                       value={shellInput}
+                      onFocus={() => setIsInputFocused(true)}
+                      onBlur={() => setIsInputFocused(false)}
                       onChange={(e) => setShellInput(e.target.value)}
                       className="flex-grow bg-transparent border-none outline-none text-white caret-terminal-accent focus:ring-0 focus:outline-none"
-                      placeholder="type 'help'..."
-                      autoFocus
+                      placeholder={currentPlaceholder}
                     />
                   </form>
                 </div>
-              )}
+              </div>
             </div>
           </section>
 
@@ -485,8 +518,8 @@ export default function App() {
               <CornerBrackets />
               <WindowHeader title="establish_link.exe" />
               <div className="p-6 space-y-6">
-                <a 
-                  href="mailto:angelolandingin.dev@gmail.com" 
+                <a
+                  href="mailto:angelolandingin.dev@gmail.com"
                   className="flex flex-col group block"
                 >
                   <span className="text-[9px] font-bold text-terminal-accent mb-1 tracking-widest uppercase opacity-70">Direct_Email</span>
@@ -499,9 +532,9 @@ export default function App() {
                     </span>
                   </div>
                 </a>
-                
-                <a 
-                  href="https://github.com/ivonneschwie" 
+
+                <a
+                  href="https://github.com/ivonneschwie"
                   target="_blank"
                   rel="noreferrer"
                   className="flex flex-col group block"
@@ -517,8 +550,8 @@ export default function App() {
                   </div>
                 </a>
 
-                <a 
-                  href="https://www.linkedin.com/in/ivonneschwie/" 
+                <a
+                  href="https://www.linkedin.com/in/ivonneschwie/"
                   target="_blank"
                   rel="noreferrer"
                   className="flex flex-col group block"
@@ -591,7 +624,7 @@ export default function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
             {PROJECTS.map((project) => (
-              <a 
+              <a
                 key={project.id}
                 href={project.link}
                 target="_blank"
@@ -601,7 +634,7 @@ export default function App() {
                 <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                   <ArrowRight size={20} className="text-terminal-accent" />
                 </div>
-                
+
                 <div className="flex justify-between items-center text-[10px] font-bold tracking-widest text-white/30">
                   <span className="border-t border-white/20 pt-1">ID__{project.id}</span>
                   <span className="bg-white/5 px-2 py-0.5 tabular-nums text-terminal-accent">{project.year}</span>
@@ -653,7 +686,7 @@ export default function App() {
               { icon: Linkedin, url: "https://www.linkedin.com/in/ivonneschwie/" },
               { icon: HelpCircle, url: "#" }
             ].map((social, i) => (
-              <a 
+              <a
                 key={i}
                 href={social.url}
                 target="_blank"

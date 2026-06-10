@@ -296,7 +296,7 @@ export function MatrixRain({ active }: MatrixRainProps) {
     <>
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 pointer-events-none -z-10 opacity-[0.12] select-none"
+        className="fixed inset-0 pointer-events-none -z-10 opacity-[0.08] select-none"
       />
       <canvas
         ref={glowCanvasRef}
