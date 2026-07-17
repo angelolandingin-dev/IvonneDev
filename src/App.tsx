@@ -38,13 +38,45 @@ const PROJECTS: Project[] = [
     tags: ["PHP", "MYSQL", "COMMISSION"],
     year: "2025",
     link: "https://www.mavenbeachresort.com/"
+  },
+  {
+    id: "v-03",
+    title: "IVONNE_DEV",
+    description: "This portfolio — a dark terminal/brutalist single-page React app with Matrix rain, CRT scanlines, and interactive shell CLI.",
+    tags: ["REACT", "VITE", "TAILWIND", "TYPESCRIPT"],
+    year: "2025",
+    link: "https://ivonne.dev/"
+  },
+  {
+    id: "v-04",
+    title: "TIME_RENDER",
+    description: "OJT time render calculator and tracker with authentication, Supabase backend, and multi-user support.",
+    tags: ["NEXTJS", "SUPABASE", "TYPESCRIPT", "TAILWIND"],
+    year: "2026",
+    link: "https://angelolandingin.tech/"
+  },
+  {
+    id: "c-03",
+    title: "CRAIGWIL_MINISTRIES",
+    description: "Faith-centered web presence for Craigwil Ministries INC with articles, books, events, and an admin content management system.",
+    tags: ["REACT", "TAILWIND", "TYPESCRIPT", "COMMISSION"],
+    year: "2025",
+    link: "https://craigwil-ministries.vercel.app/"
+  },
+  {
+    id: "c-04",
+    title: "CRAIGWIL_CONSULTING",
+    description: "Coaching and consulting platform for Dr. Annette Craig-Wilson's practice. Executive coaching, life strategy, and leadership training services.",
+    tags: ["REACT", "VITE", "TAILWIND", "TYPESCRIPT", "COMMISSION"],
+    year: "2025",
+    link: "https://craig-wilson-consulting.vercel.app/"
   }
 ];
 
 const SKILLS: Skill[] = [
   {
     category: "WEB_ECOSYSTEM",
-    items: ["REACT", "TAILWIND_CSS", "FIREBASE", "JAVASCRIPT", "PHP"]
+    items: ["NEXTJS", "REACT", "TAILWIND_CSS", "SUPABASE", "FIREBASE", "JAVASCRIPT", "PHP"]
   },
   {
     category: "ENGINEERING_CORE",
