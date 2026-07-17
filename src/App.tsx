@@ -569,7 +569,7 @@ export default function App() {
                 </a>
 
                 <a
-                  href="https://github.com/ivonneschwie"
+                  href="https://github.com/angelolandingin-dev"
                   target="_blank"
                   rel="noreferrer"
                   className="flex flex-col group block"
@@ -580,7 +580,7 @@ export default function App() {
                       <Github size={16} className="text-white/40 group-hover:text-terminal-accent transition-colors" />
                     </div>
                     <span className="text-sm font-bold text-white group-hover:underline decoration-terminal-accent uppercase tracking-tighter">
-                      ivonneschwie
+                      angelolandingin-dev
                     </span>
                   </div>
                 </a>
@@ -716,7 +716,7 @@ export default function App() {
 
           <div className="flex gap-1">
             {[
-              { icon: Github, url: "https://github.com/ivonneschwie" },
+              { icon: Github, url: "https://github.com/angelolandingin-dev" },
               { icon: Mail, url: "mailto:angelolandingin.dev@gmail.com" },
               { icon: Linkedin, url: "https://www.linkedin.com/in/ivonneschwie/" },
               { icon: HelpCircle, url: "#" }
