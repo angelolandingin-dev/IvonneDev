@@ -70,6 +70,14 @@ const PROJECTS: Project[] = [
     tags: ["REACT", "VITE", "TAILWIND", "TYPESCRIPT", "COMMISSION"],
     year: "2025",
     link: "https://craig-wilson-consulting.vercel.app/"
+  },
+  {
+    id: "v-05",
+    title: "RAINCRAFT",
+    description: "Minecraft-themed Rainmeter skin that turns your desktop into an inventory screen. Browse files, launch apps, and keep shortcuts organized in a familiar grid layout.",
+    tags: ["RAINMETER", "PYTHON", "CUSTOMIZATION", "MINECRAFT"],
+    year: "2026",
+    link: "https://github.com/angelolandingin-dev/raincraft-github"
   }
 ];
 
