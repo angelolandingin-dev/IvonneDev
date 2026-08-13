@@ -6,7 +6,7 @@ const PROJECTS: Project[] = [
   {
     id: "v-02",
     title: "CLASS-SYNC",
-    description: "Multipurpose student utility for time scheduling, markdown-based note-taking, and automated study revision tools.",
+    description: "A student utility for scheduling classes, taking notes, and tracking study sessions.",
     tags: ["REACT", "TAILWIND", "FIREBASE"],
     year: "2026",
     link: "https://class-sync-red.vercel.app/"
@@ -14,39 +14,39 @@ const PROJECTS: Project[] = [
   {
     id: "c-02",
     title: "CHINA_WATSON",
-    description: "Bespoke web implementation for China Watson enterprise operations.",
-    tags: ["WIX", "COMMISSION"],
+    description: "Corporate website for China Watson's business operations.",
+    tags: ["WIX"],
     year: "2026",
     link: "https://www.chinawatson.com/"
   },
   {
     id: "v-01",
     title: "SITEPICKEMS",
-    description: "Tournament prediction system similar to LoL Pick'ems. Features candidate lock-ins, victory tracking, and integrated game trivia challenges.",
-    tags: ["JAVASCRIPT", "UI/UX", "GAME_LOGIC"],
+    description: "A tournament prediction game where players pick winners and answer trivia about matches.",
+    tags: ["JAVASCRIPT"],
     year: "2025",
     link: "https://ivonneschwie.github.io/SITEPickems/"
   },
   {
     id: "c-01",
     title: "MAVEN_BEACH_RESORT",
-    description: "Full-scale resort management and booking interface. High-end visual architecture for luxury hospitality.",
-    tags: ["PHP", "MYSQL", "COMMISSION"],
+    description: "A booking and management platform for Maven Beach Resort.",
+    tags: ["PHP", "MYSQL"],
     year: "2025",
     link: "https://www.mavenbeachresort.com/"
   },
   {
     id: "v-03",
     title: "IVONNE_DEV",
-    description: "A clean single-page React CV portfolio built with Vite and Tailwind CSS.",
-    tags: ["REACT", "VITE", "TAILWIND", "TYPESCRIPT"],
+    description: "This portfolio — a clean single-page React CV built with Vite and Tailwind CSS.",
+    tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
     year: "2025",
     link: "https://ivonne.dev/"
   },
   {
     id: "v-04",
     title: "TIME_RENDER",
-    description: "OJT time render calculator and tracker with authentication, Supabase backend, and multi-user support.",
+    description: "An OJT hours tracker with login and multi-user support, backed by Supabase.",
     tags: ["NEXTJS", "SUPABASE", "TYPESCRIPT", "TAILWIND"],
     year: "2026",
     link: "https://angelolandingin.tech/"
@@ -54,24 +54,24 @@ const PROJECTS: Project[] = [
   {
     id: "c-03",
     title: "CRAIGWIL_MINISTRIES",
-    description: "Faith-centered web presence for Craigwil Ministries INC with articles, books, events, and an admin content management system.",
-    tags: ["REACT", "TAILWIND", "TYPESCRIPT", "COMMISSION"],
+    description: "Website for Craigwil Ministries with articles, books, events, and a content manager.",
+    tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
     year: "2025",
     link: "https://craigwil-ministries.vercel.app/"
   },
   {
     id: "c-04",
     title: "CRAIGWIL_CONSULTING",
-    description: "Coaching and consulting platform for Dr. Annette Craig-Wilson's practice. Executive coaching, life strategy, and leadership training services.",
-    tags: ["REACT", "VITE", "TAILWIND", "TYPESCRIPT", "COMMISSION"],
+    description: "Website for Dr. Annette Craig-Wilson's coaching and consulting practice.",
+    tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
     year: "2025",
     link: "https://craig-wilson-consulting.vercel.app/"
   },
   {
     id: "v-05",
     title: "RAINCRAFT",
-    description: "Minecraft-themed Rainmeter skin that turns your desktop into an inventory screen. Browse files, launch apps, and keep shortcuts organized in a familiar grid layout.",
-    tags: ["RAINMETER", "PYTHON", "CUSTOMIZATION", "MINECRAFT"],
+    description: "A Minecraft-themed desktop skin that turns your screen into an inventory-style launcher.",
+    tags: ["RAINMETER", "PYTHON"],
     year: "2026",
     link: "https://github.com/angelolandingin-dev/raincraft-github"
   }
@@ -189,9 +189,7 @@ export default function App() {
           <section aria-labelledby="summary-heading">
             <SectionHeading id="summary-heading">Summary</SectionHeading>
             <p className="leading-relaxed text-cv-muted">
-              BS Computer Science graduate from Universidad de Dagupan, class of 2026.
-              Fullstack web developer focused on robust React/Tailwind architectures and
-              scalable backend integrations. Bridging web logic with system efficiency.
+              Fullstack web developer and BS Computer Science student at Universidad de Dagupan, class of 2026. I build clean, fast, and user-friendly websites and web apps.
             </p>
           </section>
 
