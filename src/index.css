@@ -15,7 +15,7 @@
   body {
     @apply bg-cv-bg text-cv-text font-sans antialiased;
 
-    background-image: radial-gradient(circle, rgba(26, 26, 26, 0.15) 2px, transparent 2px);
-    background-size: 20px 20px;
+    background-image: radial-gradient(circle, rgba(26, 26, 26, 0.12) 2px, transparent 2px);
+    background-size: 40px 40px;
   }
 }
