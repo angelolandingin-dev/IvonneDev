@@ -4,6 +4,22 @@ import { Project, Skill } from "./types";
 
 const PROJECTS: Project[] = [
   {
+    id: "v-05",
+    title: "RAINCRAFT",
+    description: "A Minecraft-themed Rainmeter skin that turns the desktop into an inventory screen for browsing files and launching apps.",
+    tags: ["RAINMETER", "PYTHON"],
+    year: "2026",
+    link: "https://github.com/angelolandingin-dev/raincraft-github"
+  },
+  {
+    id: "v-04",
+    title: "TIME_RENDER",
+    description: "An OJT hours tracker that records rendered hours, with user authentication and multi-user support backed by Supabase.",
+    tags: ["NEXTJS", "SUPABASE", "TYPESCRIPT", "TAILWIND"],
+    year: "2026",
+    link: "https://angelolandingin.tech/"
+  },
+  {
     id: "v-02",
     title: "CLASS-SYNC",
     description: "A student utility that combines class scheduling, note-taking, and study session tracking in one place.",
@@ -20,28 +36,12 @@ const PROJECTS: Project[] = [
     link: "https://www.chinawatson.com/"
   },
   {
-    id: "v-01",
-    title: "SITEPICKEMS",
-    description: "A tournament prediction game inspired by LoL Pick'ems, where players pick match winners and answer trivia questions.",
-    tags: ["JAVASCRIPT"],
+    id: "c-04",
+    title: "CRAIGWIL_CONSULTING",
+    description: "The website for Dr. Annette Craig-Wilson's coaching and consulting practice, presenting her services and background.",
+    tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
     year: "2025",
-    link: "https://ivonneschwie.github.io/SITEPickems/"
-  },
-  {
-    id: "c-01",
-    title: "MAVEN_BEACH_RESORT",
-    description: "A booking and management platform for Maven Beach Resort, handling reservations and guest information.",
-    tags: ["PHP", "MYSQL"],
-    year: "2025",
-    link: "https://www.mavenbeachresort.com/"
-  },
-  {
-    id: "v-04",
-    title: "TIME_RENDER",
-    description: "An OJT hours tracker that records rendered hours, with user authentication and multi-user support backed by Supabase.",
-    tags: ["NEXTJS", "SUPABASE", "TYPESCRIPT", "TAILWIND"],
-    year: "2026",
-    link: "https://angelolandingin.tech/"
+    link: "https://craig-wilson-consulting.vercel.app/"
   },
   {
     id: "c-03",
@@ -52,20 +52,20 @@ const PROJECTS: Project[] = [
     link: "https://craigwil-ministries.vercel.app/"
   },
   {
-    id: "c-04",
-    title: "CRAIGWIL_CONSULTING",
-    description: "The website for Dr. Annette Craig-Wilson's coaching and consulting practice, presenting her services and background.",
-    tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
+    id: "c-01",
+    title: "MAVEN_BEACH_RESORT",
+    description: "A booking and management platform for Maven Beach Resort, handling reservations and guest information.",
+    tags: ["PHP", "MYSQL"],
     year: "2025",
-    link: "https://craig-wilson-consulting.vercel.app/"
+    link: "https://www.mavenbeachresort.com/"
   },
   {
-    id: "v-05",
-    title: "RAINCRAFT",
-    description: "A Minecraft-themed Rainmeter skin that turns the desktop into an inventory screen for browsing files and launching apps.",
-    tags: ["RAINMETER", "PYTHON"],
-    year: "2026",
-    link: "https://github.com/angelolandingin-dev/raincraft-github"
+    id: "v-01",
+    title: "SITEPICKEMS",
+    description: "A tournament prediction game inspired by LoL Pick'ems, where players pick match winners and answer trivia questions.",
+    tags: ["JAVASCRIPT"],
+    year: "2025",
+    link: "https://ivonneschwie.github.io/SITEPickems/"
   }
 ];
 
