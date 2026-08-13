@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Database, ExternalLink, Github, Linkedin, Mail } from "lucide-react";
 import { Project, Skill } from "./types";
+import profilePic from "./assets/picture.jpg";
 
 const PROJECTS: Project[] = [
   {
@@ -157,7 +158,12 @@ export default function App() {
       <div className="max-w-3xl mx-auto px-6 py-16">
         {/* Header */}
         <header className="mb-12">
-          <div>
+          <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
+            <img
+              src={profilePic}
+              alt="Mark Angelo Landingin"
+              className="w-24 h-24 object-cover"
+            />
             <div>
               <h1 className="text-4xl font-semibold tracking-tight">Mark Angelo Landingin</h1>
               <p className="mt-2 text-lg text-cv-muted">Fullstack Web Developer</p>
@@ -245,7 +251,7 @@ export default function App() {
                   aria-controls={`panel-${tab.id}`}
                   tabIndex={activeTab === tab.id ? 0 : -1}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`pb-2 text-xl font-semibold border-b-2 -mb-px ${
+                  className={`pb-2 text-lg font-semibold border-b-2 -mb-px ${
                     activeTab === tab.id
                       ? "text-cv-text border-cv-text"
                       : "text-cv-muted border-transparent hover:text-cv-text"
