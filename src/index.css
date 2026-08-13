@@ -4,7 +4,7 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
-  --color-cv-bg: #faf7ed;
+  --color-cv-bg: #fafafa;
   --color-cv-text: #1a1a1a;
   --color-cv-muted: #6b7280;
   --color-cv-accent: #2563eb;
@@ -14,8 +14,5 @@
 @layer base {
   body {
     @apply bg-cv-bg text-cv-text font-sans antialiased;
-
-    background-image: radial-gradient(circle, rgba(26, 26, 26, 0.12) 2px, transparent 2px);
-    background-size: 40px 40px;
   }
 }
