@@ -293,7 +293,33 @@ export default function App() {
 
             {activeTab === "experience" && (
               <div role="tabpanel" id="panel-experience" aria-labelledby="tab-experience">
-                <p className="text-cv-muted">Your experience here.</p>
+                <ul className="space-y-8">
+                  <li>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h3 className="font-semibold">Vertex Technologies Corporation</h3>
+                      <span className="text-sm text-cv-muted">2026</span>
+                    </div>
+                    <p className="mt-0.5 text-sm font-medium text-cv-muted">
+                      On-the-Job Training (OJT) - Developer
+                    </p>
+                    <p className="mt-1 leading-relaxed text-cv-muted">
+                      Developed ERP systems and modular packages as part of the company's software
+                      team. Worked on business modules for client-facing systems and contributed to
+                      internal tooling used across projects.
+                    </p>
+                  </li>
+                  <li>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h3 className="font-semibold">Freelance Web Development</h3>
+                      <span className="text-sm text-cv-muted">2025 - Present</span>
+                    </div>
+                    <p className="mt-1 leading-relaxed text-cv-muted">
+                      Builds websites and web applications for individual and business clients,
+                      including company sites, booking and management platforms, and personal tools.
+                      Handles projects from requirements through deployment.
+                    </p>
+                  </li>
+                </ul>
               </div>
             )}
 
