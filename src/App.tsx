@@ -146,7 +146,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-transparent text-cv-text font-sans">
-      <div className="max-w-3xl mx-auto px-6 py-16">
+      <div className="max-w-3xl mx-auto px-6 py-16 bg-cv-bg">
         {/* Header */}
         <header className="mb-12">
           <div>
