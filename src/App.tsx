@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Database, ExternalLink, Github, Linkedin, Mail } from "lucide-react";
 import { Project, Skill } from "./types";
+import profilePic from "./assets/picture.jpg";
 
 const PROJECTS: Project[] = [
   {
@@ -80,22 +81,23 @@ const PROJECTS: Project[] = [
 const SKILLS: Skill[] = [
   {
     category: "Languages",
-    items: ["JAVASCRIPT", "PHP", "JAVA", "PYTHON"]
+    items: ["JAVASCRIPT", "PHP", "JAVA", "PYTHON", "REACT", "NEXTJS"]
   },
   {
     category: "Databases",
-    items: ["MYSQL", "SUPABASE", "FIREBASE", "SQL"]
+    items: ["SUPABASE", "FIREBASE", "SQL"]
   }
 ];
 
 const SKILL_LOGOS: Record<string, string> = {
-  JAVASCRIPT: "https://cdn.simpleicons.org/javascript",
-  PHP: "https://cdn.simpleicons.org/php",
-  JAVA: "https://cdn.simpleicons.org/openjdk",
-  PYTHON: "https://cdn.simpleicons.org/python",
-  MYSQL: "https://cdn.simpleicons.org/mysql",
-  SUPABASE: "https://cdn.simpleicons.org/supabase",
-  FIREBASE: "https://cdn.simpleicons.org/firebase"
+  JAVASCRIPT: "https://cdn.simpleicons.org/javascript/6b7280",
+  PHP: "https://cdn.simpleicons.org/php/6b7280",
+  JAVA: "https://cdn.simpleicons.org/openjdk/6b7280",
+  PYTHON: "https://cdn.simpleicons.org/python/6b7280",
+  REACT: "https://cdn.simpleicons.org/react/6b7280",
+  NEXTJS: "https://cdn.simpleicons.org/nextdotjs/6b7280",
+  SUPABASE: "https://cdn.simpleicons.org/supabase/6b7280",
+  FIREBASE: "https://cdn.simpleicons.org/firebase/6b7280"
 };
 
 const CONTACT = {
@@ -156,25 +158,34 @@ export default function App() {
       <div className="max-w-3xl mx-auto px-6 py-16">
         {/* Header */}
         <header className="mb-12">
-          <h1 className="text-4xl font-semibold tracking-tight">Mark Angelo Landingin</h1>
-          <p className="mt-2 text-lg text-cv-muted">Fullstack Web Developer</p>
-          <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-            <ContactLink
-              href={`mailto:${CONTACT.email}`}
-              label={CONTACT.email}
-              icon={<Mail size={15} />}
-            />
-            <ContactLink
-              href={CONTACT.github}
-              label={CONTACT.githubLabel}
-              icon={<Github size={15} />}
-              external
-            />
-            <ContactLink
-              href={CONTACT.linkedin}
-              label={CONTACT.linkedinLabel}
-              icon={<Linkedin size={15} />}
-              external
+          <div className="flex flex-col-reverse items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-4xl font-semibold tracking-tight">Mark Angelo Landingin</h1>
+              <p className="mt-2 text-lg text-cv-muted">Fullstack Web Developer</p>
+              <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+                <ContactLink
+                  href={`mailto:${CONTACT.email}`}
+                  label={CONTACT.email}
+                  icon={<Mail size={15} />}
+                />
+                <ContactLink
+                  href={CONTACT.github}
+                  label={CONTACT.githubLabel}
+                  icon={<Github size={15} />}
+                  external
+                />
+                <ContactLink
+                  href={CONTACT.linkedin}
+                  label={CONTACT.linkedinLabel}
+                  icon={<Linkedin size={15} />}
+                  external
+                />
+              </div>
+            </div>
+            <img
+              src={profilePic}
+              alt="Mark Angelo Landingin"
+              className="w-24 h-24 rounded-full object-cover border border-cv-border"
             />
           </div>
         </header>
@@ -206,7 +217,7 @@ export default function App() {
                         className="flex items-center gap-1.5 rounded-md border border-cv-border px-3 py-1 text-sm"
                       >
                         {item === "SQL" ? (
-                          <Database size={14} aria-hidden="true" />
+                          <Database size={14} aria-hidden="true" className="text-cv-muted" />
                         ) : (
                           <img
                             src={SKILL_LOGOS[item]}
@@ -242,7 +253,7 @@ export default function App() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`pb-2 text-sm font-medium border-b-2 -mb-px ${
                     activeTab === tab.id
-                      ? "text-cv-accent border-cv-accent"
+                      ? "text-cv-text border-cv-text"
                       : "text-cv-muted border-transparent hover:text-cv-text"
                   }`}
                 >
@@ -253,7 +264,6 @@ export default function App() {
 
             {activeTab === "projects" && (
               <div role="tabpanel" id="panel-projects" aria-labelledby="tab-projects">
-                <SectionHeading>Projects</SectionHeading>
                 <ul className="space-y-8">
                   {PROJECTS.map((project) => (
                     <li key={project.id}>
@@ -299,14 +309,12 @@ export default function App() {
 
             {activeTab === "experience" && (
               <div role="tabpanel" id="panel-experience" aria-labelledby="tab-experience">
-                <SectionHeading>Experience</SectionHeading>
                 <p className="text-cv-muted">Your experience here.</p>
               </div>
             )}
 
             {activeTab === "education" && (
               <div role="tabpanel" id="panel-education" aria-labelledby="tab-education">
-                <SectionHeading>Education</SectionHeading>
                 <p className="leading-relaxed">
                   BS Computer Science <span className="text-cv-muted">— Universidad de Dagupan, Class of 2026</span>
                 </p>
