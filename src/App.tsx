@@ -97,9 +97,9 @@ const CONTACT = {
 
 const formatLabel = (value: string) => value.replace(/_/g, " ");
 
-function SectionHeading({ children }: { children: string }) {
+function SectionHeading({ id, children }: { id?: string; children: string }) {
   return (
-    <h2 className="text-xl font-semibold text-cv-text border-b border-cv-border pb-2 mb-4">
+    <h2 id={id} className="text-xl font-semibold text-cv-text border-b border-cv-border pb-2 mb-4">
       {children}
     </h2>
   );
@@ -161,7 +161,7 @@ export default function App() {
         <main className="space-y-12">
           {/* Summary */}
           <section aria-labelledby="summary-heading">
-            <SectionHeading>Summary</SectionHeading>
+            <SectionHeading id="summary-heading">Summary</SectionHeading>
             <p className="leading-relaxed text-cv-muted">
               BS Computer Science graduate from Universidad de Dagupan, class of 2026.
               Fullstack web developer focused on robust React/Tailwind architectures and
@@ -171,13 +171,13 @@ export default function App() {
 
           {/* Experience */}
           <section aria-labelledby="experience-heading">
-            <SectionHeading>Experience</SectionHeading>
+            <SectionHeading id="experience-heading">Experience</SectionHeading>
             <p className="text-cv-muted">Your experience here.</p>
           </section>
 
           {/* Skills */}
           <section aria-labelledby="skills-heading">
-            <SectionHeading>Skills</SectionHeading>
+            <SectionHeading id="skills-heading">Skills</SectionHeading>
             <div className="space-y-6">
               {SKILLS.map((skill) => (
                 <div key={skill.category}>
@@ -201,7 +201,7 @@ export default function App() {
 
           {/* Education */}
           <section aria-labelledby="education-heading">
-            <SectionHeading>Education</SectionHeading>
+            <SectionHeading id="education-heading">Education</SectionHeading>
             <p className="leading-relaxed">
               BS Computer Science <span className="text-cv-muted">— Universidad de Dagupan, Class of 2026</span>
             </p>
@@ -209,7 +209,7 @@ export default function App() {
 
           {/* Projects */}
           <section aria-labelledby="projects-heading">
-            <SectionHeading>Projects</SectionHeading>
+            <SectionHeading id="projects-heading">Projects</SectionHeading>
             <ul className="space-y-8">
               {PROJECTS.map((project) => (
                 <li key={project.id}>
@@ -254,7 +254,7 @@ export default function App() {
 
           {/* Contact */}
           <section aria-labelledby="contact-heading">
-            <SectionHeading>Contact</SectionHeading>
+            <SectionHeading id="contact-heading">Contact</SectionHeading>
             <div className="flex flex-col gap-2 text-sm">
               <ContactLink
                 href={`mailto:${CONTACT.email}`}
