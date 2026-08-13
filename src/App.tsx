@@ -303,7 +303,9 @@ export default function App() {
                       On-the-Job Training (OJT) - Developer
                     </p>
                     <p className="mt-1 leading-relaxed text-cv-muted">
-                      Developed ERP systems and modular packages for the company and its clients.
+                      Developed ERP systems and modular packages for the company and its clients. Worked on the
+                      parts of these systems that handle day-to-day business operations, like keeping records and
+                      putting together reports.
                     </p>
                   </li>
                   <li>
@@ -312,8 +314,8 @@ export default function App() {
                       <span className="text-sm text-cv-muted">2025 - Present</span>
                     </div>
                     <p className="mt-1 leading-relaxed text-cv-muted">
-                      Builds websites and web applications for clients, including company sites,
-                      booking platforms, and personal tools.
+                      Builds websites and web applications for clients, including company sites, booking platforms,
+                      and personal tools. Takes each project from the first idea to a finished site.
                     </p>
                   </li>
                 </ul>
