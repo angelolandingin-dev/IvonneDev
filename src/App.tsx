@@ -102,6 +102,7 @@ const CONTACT = {
 
 const TABS = [
   { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects" },
   { id: "education", label: "Education" }
 ] as const;
 
@@ -146,7 +147,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-transparent text-cv-text font-sans">
-      <div className="max-w-6xl mx-auto px-6 py-16">
+      <div className="max-w-3xl mx-auto px-6 py-16">
         {/* Header */}
         <header className="mb-12">
           <div>
@@ -176,201 +177,197 @@ export default function App() {
           </div>
         </header>
 
-        <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
+        <main className="space-y-12">
+          {/* Summary */}
+          <section aria-labelledby="summary-heading">
+            <SectionHeading id="summary-heading">Summary</SectionHeading>
+            <p className="leading-relaxed text-cv-muted">
+              Full Stack web developer and BS Computer Science student at Universidad de Dagupan, class of 2026. I work on websites and web applications with React and Tailwind CSS, from client projects to personal tools.
+            </p>
+          </section>
+
+          {/* Skills */}
+          <section aria-labelledby="skills-heading">
+            <SectionHeading id="skills-heading">Skills</SectionHeading>
+            <div className="space-y-6">
+              {SKILLS.map((skill) => (
+                <div key={skill.category}>
+                  <h3 className="text-sm font-semibold text-cv-muted uppercase tracking-wider mb-3">
+                    {skill.category}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {skill.items.map((item) => (
+                      <span
+                        key={item}
+                        className="flex items-center gap-1.5 rounded-md border border-cv-border px-3 py-1 text-sm"
+                      >
+                        {item === "SQL" ? (
+                          <Database size={14} aria-hidden="true" className="text-cv-accent" />
+                        ) : (
+                          <img
+                            src={SKILL_LOGOS[item]}
+                            alt=""
+                            loading="lazy"
+                            className="h-3.5 w-3.5"
+                          />
+                        )}
+                        {formatLabel(item)}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Tabs: Projects | Experience | Education */}
           <div>
-            <main className="space-y-12">
-              {/* Summary */}
-              <section aria-labelledby="summary-heading">
-                <SectionHeading id="summary-heading">Summary</SectionHeading>
-                <p className="leading-relaxed text-cv-muted">
-                  Full Stack web developer and BS Computer Science student at Universidad de Dagupan, class of 2026. I work on websites and web applications with React and Tailwind CSS, from client projects to personal tools.
-                </p>
-              </section>
-
-              {/* Skills */}
-              <section aria-labelledby="skills-heading">
-                <SectionHeading id="skills-heading">Skills</SectionHeading>
-                <div className="space-y-6">
-                  {SKILLS.map((skill) => (
-                    <div key={skill.category}>
-                      <h3 className="text-sm font-semibold text-cv-muted uppercase tracking-wider mb-3">
-                        {skill.category}
-                      </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {skill.items.map((item) => (
-                          <span
-                            key={item}
-                            className="flex items-center gap-1.5 rounded-md border border-cv-border px-3 py-1 text-sm"
-                          >
-                            {item === "SQL" ? (
-                              <Database size={14} aria-hidden="true" className="text-cv-accent" />
-                            ) : (
-                              <img
-                                src={SKILL_LOGOS[item]}
-                                alt=""
-                                loading="lazy"
-                                className="h-3.5 w-3.5"
-                              />
-                            )}
-                            {formatLabel(item)}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* Tabs: Experience | Education */}
-              <div>
-                <div
-                  role="tablist"
-                  aria-label="Content sections"
-                  className="flex gap-6 border-b border-cv-border mb-8"
+            <div
+              role="tablist"
+              aria-label="Content sections"
+              className="flex gap-6 border-b border-cv-border mb-8"
+            >
+              {TABS.map((tab) => (
+                <button
+                  key={tab.id}
+                  role="tab"
+                  id={`tab-${tab.id}`}
+                  aria-selected={activeTab === tab.id}
+                  aria-controls={`panel-${tab.id}`}
+                  tabIndex={activeTab === tab.id ? 0 : -1}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`cursor-pointer pb-2 text-lg font-semibold border-b-2 -mb-px ${
+                    activeTab === tab.id
+                      ? "text-cv-text border-cv-text"
+                      : "text-cv-muted border-transparent hover:text-cv-text"
+                  }`}
                 >
-                  {TABS.map((tab) => (
-                    <button
-                      key={tab.id}
-                      role="tab"
-                      id={`tab-${tab.id}`}
-                      aria-selected={activeTab === tab.id}
-                      aria-controls={`panel-${tab.id}`}
-                      tabIndex={activeTab === tab.id ? 0 : -1}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`cursor-pointer pb-2 text-lg font-semibold border-b-2 -mb-px ${
-                        activeTab === tab.id
-                          ? "text-cv-text border-cv-text"
-                          : "text-cv-muted border-transparent hover:text-cv-text"
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {activeTab === "projects" && (
+              <div role="tabpanel" id="panel-projects" aria-labelledby="tab-projects">
+                <ul className="space-y-8">
+                  {PROJECTS.map((project) => (
+                    <li key={project.id}>
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                        <h3 className="font-semibold">{project.title}</h3>
+                        <span className="text-sm text-cv-muted">{project.year}</span>
+                      </div>
+                      <p className="mt-1 leading-relaxed text-cv-muted">{project.description}</p>
+                      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">
+                        {project.link &&
+                          (project.link.includes("github.com") ? (
+                            <ContactLink
+                              href={project.link}
+                              label="Source"
+                              icon={<Github size={14} />}
+                              external
+                            />
+                          ) : (
+                            <ContactLink
+                              href={project.link}
+                              label="Live"
+                              icon={<ExternalLink size={14} />}
+                              external
+                            />
+                          ))}
+                        <span className="flex flex-wrap gap-1.5">
+                          {project.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="rounded-full border border-cv-border px-2.5 py-0.5 text-xs text-cv-muted"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </span>
+                      </div>
+                    </li>
                   ))}
-                </div>
-
-                {activeTab === "experience" && (
-                  <div role="tabpanel" id="panel-experience" aria-labelledby="tab-experience">
-                    <ul className="space-y-8">
-                      <li>
-                        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                          <h3 className="font-semibold">Vertex Technologies Corporation</h3>
-                          <span className="text-sm text-cv-muted">2026</span>
-                        </div>
-                        <p className="mt-0.5 text-sm font-medium text-cv-muted">
-                          On-the-Job Training (OJT) - Developer
-                        </p>
-                        <p className="mt-1 leading-relaxed text-cv-muted">
-                          Developed ERP systems and modular packages for the company and its clients. Worked on the
-                          parts of these systems that handle day-to-day business operations, like keeping records and
-                          putting together reports.
-                        </p>
-                      </li>
-                      <li>
-                        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                          <h3 className="font-semibold">Freelance Web Development</h3>
-                          <span className="text-sm text-cv-muted">2025 - Present</span>
-                        </div>
-                        <p className="mt-1 leading-relaxed text-cv-muted">
-                          Builds websites and web applications for clients, including company sites, booking platforms,
-                          and personal tools. Takes each project from the first idea to a finished site.
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-
-                {activeTab === "education" && (
-                  <div role="tabpanel" id="panel-education" aria-labelledby="tab-education">
-                    <ul className="space-y-8">
-                      <li>
-                        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                          <h3 className="font-semibold">BS Computer Science</h3>
-                          <span className="text-sm text-cv-muted">2020 - 2026</span>
-                        </div>
-                        <p className="mt-1 leading-relaxed text-cv-muted">Universidad De Dagupan</p>
-                      </li>
-                      <li>
-                        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                          <h3 className="font-semibold">Best in Computer Science</h3>
-                          <span className="text-sm text-cv-muted">2014 - 2020</span>
-                        </div>
-                        <p className="mt-1 leading-relaxed text-cv-muted">Philippine Science High School - CARC</p>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+                </ul>
               </div>
-            </main>
+            )}
 
-            {/* Contact */}
-            <section aria-labelledby="contact-heading">
-              <SectionHeading id="contact-heading">Contact</SectionHeading>
-              <div className="flex flex-col gap-2 text-sm">
-                <ContactLink
-                  href={`mailto:${CONTACT.email}`}
-                  label={CONTACT.email}
-                  icon={<Mail size={15} />}
-                />
-                <ContactLink
-                  href={CONTACT.github}
-                  label={CONTACT.githubLabel}
-                  icon={<Github size={15} />}
-                  external
-                />
-                <ContactLink
-                  href={CONTACT.linkedin}
-                  label={CONTACT.linkedinLabel}
-                  icon={<Linkedin size={15} />}
-                  external
-                />
+            {activeTab === "experience" && (
+              <div role="tabpanel" id="panel-experience" aria-labelledby="tab-experience">
+                <ul className="space-y-8">
+                  <li>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h3 className="font-semibold">Vertex Technologies Corporation</h3>
+                      <span className="text-sm text-cv-muted">2026</span>
+                    </div>
+                    <p className="mt-0.5 text-sm font-medium text-cv-muted">
+                      On-the-Job Training (OJT) - Developer
+                    </p>
+                    <p className="mt-1 leading-relaxed text-cv-muted">
+                      Developed ERP systems and modular packages for the company and its clients. Worked on the
+                      parts of these systems that handle day-to-day business operations, like keeping records and
+                      putting together reports.
+                    </p>
+                  </li>
+                  <li>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h3 className="font-semibold">Freelance Web Development</h3>
+                      <span className="text-sm text-cv-muted">2025 - Present</span>
+                    </div>
+                    <p className="mt-1 leading-relaxed text-cv-muted">
+                      Builds websites and web applications for clients, including company sites, booking platforms,
+                      and personal tools. Takes each project from the first idea to a finished site.
+                    </p>
+                  </li>
+                </ul>
               </div>
-            </section>
+            )}
+
+            {activeTab === "education" && (
+              <div role="tabpanel" id="panel-education" aria-labelledby="tab-education">
+                <ul className="space-y-8">
+                  <li>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h3 className="font-semibold">BS Computer Science</h3>
+                      <span className="text-sm text-cv-muted">2020 - 2026</span>
+                    </div>
+                    <p className="mt-1 leading-relaxed text-cv-muted">Universidad De Dagupan</p>
+                  </li>
+                  <li>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h3 className="font-semibold">Best in Computer Science</h3>
+                      <span className="text-sm text-cv-muted">2014 - 2020</span>
+                    </div>
+                    <p className="mt-1 leading-relaxed text-cv-muted">Philippine Science High School - CARC</p>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
 
-          {/* Projects — right column */}
-          <aside className="lg:sticky lg:top-8 self-start">
-            <SectionHeading id="projects-heading">Projects</SectionHeading>
-            <ul className="space-y-8">
-              {PROJECTS.map((project) => (
-                <li key={project.id}>
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <h3 className="font-semibold">{project.title}</h3>
-                    <span className="text-sm text-cv-muted">{project.year}</span>
-                  </div>
-                  <p className="mt-1 leading-relaxed text-cv-muted">{project.description}</p>
-                  <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">
-                    {project.link &&
-                      (project.link.includes("github.com") ? (
-                        <ContactLink
-                          href={project.link}
-                          label="Source"
-                          icon={<Github size={14} />}
-                          external
-                        />
-                      ) : (
-                        <ContactLink
-                          href={project.link}
-                          label="Live"
-                          icon={<ExternalLink size={14} />}
-                          external
-                        />
-                      ))}
-                    <span className="flex flex-wrap gap-1.5">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-cv-border px-2.5 py-0.5 text-xs text-cv-muted"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </aside>
-        </div>
+          {/* Contact */}
+          <section aria-labelledby="contact-heading">
+            <SectionHeading id="contact-heading">Contact</SectionHeading>
+            <div className="flex flex-col gap-2 text-sm">
+              <ContactLink
+                href={`mailto:${CONTACT.email}`}
+                label={CONTACT.email}
+                icon={<Mail size={15} />}
+              />
+              <ContactLink
+                href={CONTACT.github}
+                label={CONTACT.githubLabel}
+                icon={<Github size={15} />}
+                external
+              />
+              <ContactLink
+                href={CONTACT.linkedin}
+                label={CONTACT.linkedinLabel}
+                icon={<Linkedin size={15} />}
+                external
+              />
+            </div>
+          </section>
+        </main>
 
         {/* Footer */}
         <footer className="mt-16 pt-8 border-t border-cv-border text-sm text-cv-muted">
