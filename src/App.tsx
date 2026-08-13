@@ -6,7 +6,7 @@ const PROJECTS: Project[] = [
   {
     id: "v-02",
     title: "CLASS-SYNC",
-    description: "A student utility for scheduling classes, taking notes, and tracking study sessions.",
+    description: "A student utility that combines class scheduling, note-taking, and study session tracking in one place.",
     tags: ["REACT", "TAILWIND", "FIREBASE"],
     year: "2026",
     link: "https://class-sync-red.vercel.app/"
@@ -14,7 +14,7 @@ const PROJECTS: Project[] = [
   {
     id: "c-02",
     title: "CHINA_WATSON",
-    description: "Corporate website for China Watson's business operations.",
+    description: "The corporate website for China Watson, presenting the company and its services online.",
     tags: ["WIX"],
     year: "2026",
     link: "https://www.chinawatson.com/"
@@ -22,7 +22,7 @@ const PROJECTS: Project[] = [
   {
     id: "v-01",
     title: "SITEPICKEMS",
-    description: "A tournament prediction game where players pick winners and answer trivia about matches.",
+    description: "A tournament prediction game inspired by LoL Pick'ems, where players pick match winners and answer trivia questions.",
     tags: ["JAVASCRIPT"],
     year: "2025",
     link: "https://ivonneschwie.github.io/SITEPickems/"
@@ -30,7 +30,7 @@ const PROJECTS: Project[] = [
   {
     id: "c-01",
     title: "MAVEN_BEACH_RESORT",
-    description: "A booking and management platform for Maven Beach Resort.",
+    description: "A booking and management platform for Maven Beach Resort, handling reservations and guest information.",
     tags: ["PHP", "MYSQL"],
     year: "2025",
     link: "https://www.mavenbeachresort.com/"
@@ -38,7 +38,7 @@ const PROJECTS: Project[] = [
   {
     id: "v-03",
     title: "IVONNE_DEV",
-    description: "This portfolio — a clean single-page React CV built with Vite and Tailwind CSS.",
+    description: "This portfolio — a single-page React CV built with Vite and Tailwind CSS, presenting projects and experience in a document-style layout.",
     tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
     year: "2025",
     link: "https://ivonne.dev/"
@@ -46,7 +46,7 @@ const PROJECTS: Project[] = [
   {
     id: "v-04",
     title: "TIME_RENDER",
-    description: "An OJT hours tracker with login and multi-user support, backed by Supabase.",
+    description: "An OJT hours tracker that records rendered hours, with user authentication and multi-user support backed by Supabase.",
     tags: ["NEXTJS", "SUPABASE", "TYPESCRIPT", "TAILWIND"],
     year: "2026",
     link: "https://angelolandingin.tech/"
@@ -54,7 +54,7 @@ const PROJECTS: Project[] = [
   {
     id: "c-03",
     title: "CRAIGWIL_MINISTRIES",
-    description: "Website for Craigwil Ministries with articles, books, events, and a content manager.",
+    description: "The website for Craigwil Ministries, featuring articles, books, events, and an admin panel for managing content.",
     tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
     year: "2025",
     link: "https://craigwil-ministries.vercel.app/"
@@ -62,7 +62,7 @@ const PROJECTS: Project[] = [
   {
     id: "c-04",
     title: "CRAIGWIL_CONSULTING",
-    description: "Website for Dr. Annette Craig-Wilson's coaching and consulting practice.",
+    description: "The website for Dr. Annette Craig-Wilson's coaching and consulting practice, presenting her services and background.",
     tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
     year: "2025",
     link: "https://craig-wilson-consulting.vercel.app/"
@@ -70,7 +70,7 @@ const PROJECTS: Project[] = [
   {
     id: "v-05",
     title: "RAINCRAFT",
-    description: "A Minecraft-themed desktop skin that turns your screen into an inventory-style launcher.",
+    description: "A Minecraft-themed Rainmeter skin that turns the desktop into an inventory screen for browsing files and launching apps.",
     tags: ["RAINMETER", "PYTHON"],
     year: "2026",
     link: "https://github.com/angelolandingin-dev/raincraft-github"
@@ -189,7 +189,7 @@ export default function App() {
           <section aria-labelledby="summary-heading">
             <SectionHeading id="summary-heading">Summary</SectionHeading>
             <p className="leading-relaxed text-cv-muted">
-              Fullstack web developer and BS Computer Science student at Universidad de Dagupan, class of 2026. I build clean, fast, and user-friendly websites and web apps.
+              Fullstack web developer and BS Computer Science student at Universidad de Dagupan, class of 2026. I work on websites and web applications with React and Tailwind CSS, from client projects to personal tools.
             </p>
           </section>
 
