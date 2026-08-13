@@ -1,4 +1,5 @@
-import { ExternalLink, Github, Linkedin, Mail } from "lucide-react";
+import { useState } from "react";
+import { Database, ExternalLink, Github, Linkedin, Mail } from "lucide-react";
 import { Project, Skill } from "./types";
 
 const PROJECTS: Project[] = [
@@ -78,14 +79,24 @@ const PROJECTS: Project[] = [
 
 const SKILLS: Skill[] = [
   {
-    category: "WEB_ECOSYSTEM",
-    items: ["NEXTJS", "REACT", "TAILWIND_CSS", "SUPABASE", "FIREBASE", "JAVASCRIPT", "PHP"]
+    category: "Languages",
+    items: ["JAVASCRIPT", "PHP", "JAVA", "PYTHON"]
   },
   {
-    category: "ENGINEERING_CORE",
-    items: ["JAVA", "PYTHON", "SQL", "SYSTEM_DESIGN", "GIT_VERSION_CONTROL"]
+    category: "Databases",
+    items: ["MYSQL", "SUPABASE", "FIREBASE", "SQL"]
   }
 ];
+
+const SKILL_LOGOS: Record<string, string> = {
+  JAVASCRIPT: "https://cdn.simpleicons.org/javascript",
+  PHP: "https://cdn.simpleicons.org/php",
+  JAVA: "https://cdn.simpleicons.org/openjdk",
+  PYTHON: "https://cdn.simpleicons.org/python",
+  MYSQL: "https://cdn.simpleicons.org/mysql",
+  SUPABASE: "https://cdn.simpleicons.org/supabase",
+  FIREBASE: "https://cdn.simpleicons.org/firebase"
+};
 
 const CONTACT = {
   email: "angelolandingin.dev@gmail.com",
@@ -94,6 +105,14 @@ const CONTACT = {
   linkedin: "https://www.linkedin.com/in/ivonneschwie/",
   linkedinLabel: "m-angelo-landingin"
 };
+
+const TABS = [
+  { id: "projects", label: "Projects" },
+  { id: "experience", label: "Experience" },
+  { id: "education", label: "Education" }
+] as const;
+
+type TabId = (typeof TABS)[number]["id"];
 
 const formatLabel = (value: string) => value.replace(/_/g, " ");
 
@@ -130,6 +149,8 @@ function ContactLink({
 }
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState<TabId>("projects");
+
   return (
     <div className="min-h-screen bg-cv-bg text-cv-text font-sans">
       <div className="max-w-3xl mx-auto px-6 py-16">
@@ -169,12 +190,6 @@ export default function App() {
             </p>
           </section>
 
-          {/* Experience */}
-          <section aria-labelledby="experience-heading">
-            <SectionHeading id="experience-heading">Experience</SectionHeading>
-            <p className="text-cv-muted">Your experience here.</p>
-          </section>
-
           {/* Skills */}
           <section aria-labelledby="skills-heading">
             <SectionHeading id="skills-heading">Skills</SectionHeading>
@@ -182,14 +197,24 @@ export default function App() {
               {SKILLS.map((skill) => (
                 <div key={skill.category}>
                   <h3 className="text-sm font-semibold text-cv-muted uppercase tracking-wider mb-3">
-                    {formatLabel(skill.category)}
+                    {skill.category}
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {skill.items.map((item) => (
                       <span
                         key={item}
-                        className="rounded-full border border-cv-border px-3 py-1 text-sm"
+                        className="flex items-center gap-1.5 rounded-md border border-cv-border px-3 py-1 text-sm"
                       >
+                        {item === "SQL" ? (
+                          <Database size={14} aria-hidden="true" />
+                        ) : (
+                          <img
+                            src={SKILL_LOGOS[item]}
+                            alt=""
+                            loading="lazy"
+                            className="h-3.5 w-3.5"
+                          />
+                        )}
                         {formatLabel(item)}
                       </span>
                     ))}
@@ -199,58 +224,95 @@ export default function App() {
             </div>
           </section>
 
-          {/* Education */}
-          <section aria-labelledby="education-heading">
-            <SectionHeading id="education-heading">Education</SectionHeading>
-            <p className="leading-relaxed">
-              BS Computer Science <span className="text-cv-muted">— Universidad de Dagupan, Class of 2026</span>
-            </p>
-          </section>
-
-          {/* Projects */}
-          <section aria-labelledby="projects-heading">
-            <SectionHeading id="projects-heading">Projects</SectionHeading>
-            <ul className="space-y-8">
-              {PROJECTS.map((project) => (
-                <li key={project.id}>
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <h3 className="font-semibold">{project.title}</h3>
-                    <span className="text-sm text-cv-muted">{project.year}</span>
-                  </div>
-                  <p className="mt-1 leading-relaxed text-cv-muted">{project.description}</p>
-                  <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">
-                    <span className="flex flex-wrap gap-1.5">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-cv-border px-2.5 py-0.5 text-xs text-cv-muted"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </span>
-                    {project.link && (
-                      project.link.includes("github.com") ? (
-                        <ContactLink
-                          href={project.link}
-                          label="Source"
-                          icon={<Github size={14} />}
-                          external
-                        />
-                      ) : (
-                        <ContactLink
-                          href={project.link}
-                          label="Live"
-                          icon={<ExternalLink size={14} />}
-                          external
-                        />
-                      )
-                    )}
-                  </div>
-                </li>
+          {/* Tabs: Projects | Experience | Education */}
+          <div>
+            <div
+              role="tablist"
+              aria-label="Content sections"
+              className="flex gap-6 border-b border-cv-border mb-8"
+            >
+              {TABS.map((tab) => (
+                <button
+                  key={tab.id}
+                  role="tab"
+                  id={`tab-${tab.id}`}
+                  aria-selected={activeTab === tab.id}
+                  aria-controls={`panel-${tab.id}`}
+                  tabIndex={activeTab === tab.id ? 0 : -1}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`pb-2 text-sm font-medium border-b-2 -mb-px ${
+                    activeTab === tab.id
+                      ? "text-cv-accent border-cv-accent"
+                      : "text-cv-muted border-transparent hover:text-cv-text"
+                  }`}
+                >
+                  {tab.label}
+                </button>
               ))}
-            </ul>
-          </section>
+            </div>
+
+            {activeTab === "projects" && (
+              <div role="tabpanel" id="panel-projects" aria-labelledby="tab-projects">
+                <SectionHeading>Projects</SectionHeading>
+                <ul className="space-y-8">
+                  {PROJECTS.map((project) => (
+                    <li key={project.id}>
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                        <h3 className="font-semibold">{project.title}</h3>
+                        <span className="text-sm text-cv-muted">{project.year}</span>
+                      </div>
+                      <p className="mt-1 leading-relaxed text-cv-muted">{project.description}</p>
+                      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">
+                        <span className="flex flex-wrap gap-1.5">
+                          {project.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="rounded-full border border-cv-border px-2.5 py-0.5 text-xs text-cv-muted"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </span>
+                        {project.link && (
+                          project.link.includes("github.com") ? (
+                            <ContactLink
+                              href={project.link}
+                              label="Source"
+                              icon={<Github size={14} />}
+                              external
+                            />
+                          ) : (
+                            <ContactLink
+                              href={project.link}
+                              label="Live"
+                              icon={<ExternalLink size={14} />}
+                              external
+                            />
+                          )
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {activeTab === "experience" && (
+              <div role="tabpanel" id="panel-experience" aria-labelledby="tab-experience">
+                <SectionHeading>Experience</SectionHeading>
+                <p className="text-cv-muted">Your experience here.</p>
+              </div>
+            )}
+
+            {activeTab === "education" && (
+              <div role="tabpanel" id="panel-education" aria-labelledby="tab-education">
+                <SectionHeading>Education</SectionHeading>
+                <p className="leading-relaxed">
+                  BS Computer Science <span className="text-cv-muted">— Universidad de Dagupan, Class of 2026</span>
+                </p>
+              </div>
+            )}
+          </div>
 
           {/* Contact */}
           <section aria-labelledby="contact-heading">
