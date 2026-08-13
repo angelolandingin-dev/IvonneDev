@@ -324,9 +324,22 @@ export default function App() {
 
             {activeTab === "education" && (
               <div role="tabpanel" id="panel-education" aria-labelledby="tab-education">
-                <p className="leading-relaxed">
-                  BS Computer Science <span className="text-cv-muted">— Universidad de Dagupan, Class of 2026</span>
-                </p>
+                <ul className="space-y-8">
+                  <li>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h3 className="font-semibold">BS Computer Science</h3>
+                      <span className="text-sm text-cv-muted">2020 - 2026</span>
+                    </div>
+                    <p className="mt-1 leading-relaxed text-cv-muted">Universidad De Dagupan</p>
+                  </li>
+                  <li>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <h3 className="font-semibold">Best in Computer Science</h3>
+                      <span className="text-sm text-cv-muted">2014 - 2020</span>
+                    </div>
+                    <p className="mt-1 leading-relaxed text-cv-muted">Philippine Science High School - CARC</p>
+                  </li>
+                </ul>
               </div>
             )}
           </div>
