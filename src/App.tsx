@@ -145,7 +145,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>("projects");
 
   return (
-    <div className="min-h-screen bg-cv-bg text-cv-text font-sans">
+    <div className="min-h-screen bg-transparent text-cv-text font-sans">
       <div className="max-w-3xl mx-auto px-6 py-16">
         {/* Header */}
         <header className="mb-12">
