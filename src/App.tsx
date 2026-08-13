@@ -90,14 +90,14 @@ const SKILLS: Skill[] = [
 ];
 
 const SKILL_LOGOS: Record<string, string> = {
-  JAVASCRIPT: "https://cdn.simpleicons.org/javascript/6b7280",
-  PHP: "https://cdn.simpleicons.org/php/6b7280",
-  JAVA: "https://cdn.simpleicons.org/openjdk/6b7280",
-  PYTHON: "https://cdn.simpleicons.org/python/6b7280",
-  REACT: "https://cdn.simpleicons.org/react/6b7280",
-  NEXTJS: "https://cdn.simpleicons.org/nextdotjs/6b7280",
-  SUPABASE: "https://cdn.simpleicons.org/supabase/6b7280",
-  FIREBASE: "https://cdn.simpleicons.org/firebase/6b7280"
+  JAVASCRIPT: "https://cdn.simpleicons.org/javascript",
+  PHP: "https://cdn.simpleicons.org/php",
+  JAVA: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+  PYTHON: "https://cdn.simpleicons.org/python",
+  REACT: "https://cdn.simpleicons.org/react",
+  NEXTJS: "https://cdn.simpleicons.org/nextdotjs",
+  SUPABASE: "https://cdn.simpleicons.org/supabase",
+  FIREBASE: "https://cdn.simpleicons.org/firebase"
 };
 
 const CONTACT = {
@@ -158,7 +158,12 @@ export default function App() {
       <div className="max-w-3xl mx-auto px-6 py-16">
         {/* Header */}
         <header className="mb-12">
-          <div className="flex flex-col-reverse items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
+            <img
+              src={profilePic}
+              alt="Mark Angelo Landingin"
+              className="w-24 h-24 rounded-full object-cover border border-cv-border"
+            />
             <div>
               <h1 className="text-4xl font-semibold tracking-tight">Mark Angelo Landingin</h1>
               <p className="mt-2 text-lg text-cv-muted">Fullstack Web Developer</p>
@@ -182,11 +187,6 @@ export default function App() {
                 />
               </div>
             </div>
-            <img
-              src={profilePic}
-              alt="Mark Angelo Landingin"
-              className="w-24 h-24 rounded-full object-cover border border-cv-border"
-            />
           </div>
         </header>
 
@@ -217,7 +217,7 @@ export default function App() {
                         className="flex items-center gap-1.5 rounded-md border border-cv-border px-3 py-1 text-sm"
                       >
                         {item === "SQL" ? (
-                          <Database size={14} aria-hidden="true" className="text-cv-muted" />
+                          <Database size={14} aria-hidden="true" className="text-cv-accent" />
                         ) : (
                           <img
                             src={SKILL_LOGOS[item]}
@@ -251,7 +251,7 @@ export default function App() {
                   aria-controls={`panel-${tab.id}`}
                   tabIndex={activeTab === tab.id ? 0 : -1}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`pb-2 text-sm font-medium border-b-2 -mb-px ${
+                  className={`pb-2 text-xl font-semibold border-b-2 -mb-px ${
                     activeTab === tab.id
                       ? "text-cv-text border-cv-text"
                       : "text-cv-muted border-transparent hover:text-cv-text"
