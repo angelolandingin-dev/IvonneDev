@@ -72,7 +72,7 @@ const PROJECTS: Project[] = [
 const SKILLS: Skill[] = [
   {
     category: "Languages",
-    items: ["JAVASCRIPT", "PHP", "JAVA", "PYTHON", "REACT", "NEXTJS"]
+    items: ["JAVASCRIPT", "TYPESCRIPT", "PHP", "JAVA", "PYTHON", "REACT", "NEXTJS"]
   },
   {
     category: "Databases",
@@ -82,6 +82,7 @@ const SKILLS: Skill[] = [
 
 const SKILL_LOGOS: Record<string, string> = {
   JAVASCRIPT: "https://cdn.simpleicons.org/javascript",
+  TYPESCRIPT: "https://cdn.simpleicons.org/typescript",
   PHP: "https://cdn.simpleicons.org/php",
   JAVA: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
   PYTHON: "https://cdn.simpleicons.org/python",
@@ -100,8 +101,8 @@ const CONTACT = {
 };
 
 const TABS = [
-  { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects" },
   { id: "education", label: "Education" }
 ] as const;
 
@@ -142,7 +143,7 @@ function ContactLink({
 }
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<TabId>("projects");
+  const [activeTab, setActiveTab] = useState<TabId>("experience");
 
   return (
     <div className="min-h-screen bg-transparent text-cv-text font-sans">
@@ -152,7 +153,7 @@ export default function App() {
           <div>
             <div>
               <h1 className="text-4xl font-semibold tracking-tight">Mark Angelo Landingin</h1>
-              <p className="mt-2 text-lg text-cv-muted">Fullstack Web Developer</p>
+              <p className="mt-2 text-lg text-cv-muted">Full Stack Web Developer</p>
               <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
                 <ContactLink
                   href={`mailto:${CONTACT.email}`}
@@ -181,7 +182,7 @@ export default function App() {
           <section aria-labelledby="summary-heading">
             <SectionHeading id="summary-heading">Summary</SectionHeading>
             <p className="leading-relaxed text-cv-muted">
-              Fullstack web developer and BS Computer Science student at Universidad de Dagupan, class of 2026. I work on websites and web applications with React and Tailwind CSS, from client projects to personal tools.
+              Full Stack web developer and BS Computer Science student at Universidad de Dagupan, class of 2026. I work on websites and web applications with React and Tailwind CSS, from client projects to personal tools.
             </p>
           </section>
 
@@ -235,7 +236,7 @@ export default function App() {
                   aria-controls={`panel-${tab.id}`}
                   tabIndex={activeTab === tab.id ? 0 : -1}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`pb-2 text-lg font-semibold border-b-2 -mb-px ${
+                  className={`cursor-pointer pb-2 text-lg font-semibold border-b-2 -mb-px ${
                     activeTab === tab.id
                       ? "text-cv-text border-cv-text"
                       : "text-cv-muted border-transparent hover:text-cv-text"
@@ -257,18 +258,8 @@ export default function App() {
                       </div>
                       <p className="mt-1 leading-relaxed text-cv-muted">{project.description}</p>
                       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">
-                        <span className="flex flex-wrap gap-1.5">
-                          {project.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="rounded-full border border-cv-border px-2.5 py-0.5 text-xs text-cv-muted"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </span>
-                        {project.link && (
-                          project.link.includes("github.com") ? (
+                        {project.link &&
+                          (project.link.includes("github.com") ? (
                             <ContactLink
                               href={project.link}
                               label="Source"
@@ -282,8 +273,17 @@ export default function App() {
                               icon={<ExternalLink size={14} />}
                               external
                             />
-                          )
-                        )}
+                          ))}
+                        <span className="flex flex-wrap gap-1.5">
+                          {project.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="rounded-full border border-cv-border px-2.5 py-0.5 text-xs text-cv-muted"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </span>
                       </div>
                     </li>
                   ))}
