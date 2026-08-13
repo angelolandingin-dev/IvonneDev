@@ -1,6 +1,5 @@
 {
-  "name": "Dev Portfolio: Sharp Brutalist",
-  "description": "The professional terminal-inspired portfolio of Mark Angelo Landingin (Ivonne.dev), a Fullstack Developer and CS graduate from Universidad de Dagupan.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "name": "Dev Portfolio: Clean CV",
+  "description": "The professional portfolio of Mark Angelo Landingin (Ivonne.dev), a Fullstack Developer and CS graduate from Universidad de Dagupan.",
+  "requestFramePermissions": []
 }
