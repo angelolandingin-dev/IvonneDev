@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Database, ExternalLink, Github, Linkedin, Mail } from "lucide-react";
 import { Project, Skill } from "./types";
-import profilePic from "./assets/picture.jpg";
 
 const PROJECTS: Project[] = [
   {
@@ -158,12 +157,7 @@ export default function App() {
       <div className="max-w-3xl mx-auto px-6 py-16">
         {/* Header */}
         <header className="mb-12">
-          <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
-            <img
-              src={profilePic}
-              alt="Mark Angelo Landingin"
-              className="w-24 h-24 rounded-full object-cover border border-cv-border"
-            />
+          <div>
             <div>
               <h1 className="text-4xl font-semibold tracking-tight">Mark Angelo Landingin</h1>
               <p className="mt-2 text-lg text-cv-muted">Fullstack Web Developer</p>
