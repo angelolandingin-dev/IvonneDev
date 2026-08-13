@@ -13,7 +13,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "v-04",
-    title: "TIME_RENDER",
+    title: "TIME RENDER",
     description: "An OJT hours tracker that records rendered hours, with user authentication and multi-user support backed by Supabase.",
     tags: ["NEXTJS", "SUPABASE", "TYPESCRIPT", "TAILWIND"],
     year: "2026",
@@ -29,7 +29,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "c-02",
-    title: "CHINA_WATSON",
+    title: "CHINA WATSON",
     description: "The corporate website for China Watson, presenting the company and its services online.",
     tags: ["WIX"],
     year: "2026",
@@ -37,7 +37,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "c-04",
-    title: "CRAIGWIL_CONSULTING",
+    title: "CRAIGWIL CONSULTING",
     description: "The website for Dr. Annette Craig-Wilson's coaching and consulting practice, presenting her services and background.",
     tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
     year: "2025",
@@ -45,7 +45,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "c-03",
-    title: "CRAIGWIL_MINISTRIES",
+    title: "CRAIGWIL MINISTRIES",
     description: "The website for Craigwil Ministries, featuring articles, books, events, and an admin panel for managing content.",
     tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
     year: "2025",
@@ -53,7 +53,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "c-01",
-    title: "MAVEN_BEACH_RESORT",
+    title: "MAVEN BEACH RESORT",
     description: "A booking and management platform for Maven Beach Resort, handling reservations and guest information.",
     tags: ["PHP", "MYSQL"],
     year: "2025",
