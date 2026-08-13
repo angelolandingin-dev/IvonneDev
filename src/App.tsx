@@ -36,14 +36,6 @@ const PROJECTS: Project[] = [
     link: "https://www.mavenbeachresort.com/"
   },
   {
-    id: "v-03",
-    title: "IVONNE_DEV",
-    description: "This portfolio — a single-page React CV built with Vite and Tailwind CSS, presenting projects and experience in a document-style layout.",
-    tags: ["REACT", "TAILWIND", "TYPESCRIPT"],
-    year: "2025",
-    link: "https://ivonne.dev/"
-  },
-  {
     id: "v-04",
     title: "TIME_RENDER",
     description: "An OJT hours tracker that records rendered hours, with user authentication and multi-user support backed by Supabase.",
